@@ -1,0 +1,265 @@
+@import "tailwindcss";
+
+/*
+ * GCS Funding design tokens.
+ *
+ * The logo greens and blues are kept as `--color-logo-*` for exact-match use on
+ * the mark itself. Everything else in the UI uses the refined scales below:
+ * same hues, deepened for WCAG AA contrast on a near-white canvas.
+ */
+@theme {
+  --color-logo-green: #8cc63f;
+  --color-logo-blue: #29abe2;
+
+  --color-brand-50: #f3fbe9;
+  --color-brand-100: #e2f6cd;
+  --color-brand-200: #c7eda1;
+  --color-brand-300: #a6e06d;
+  --color-brand-400: #8bd147;
+  --color-brand-500: #72b62f;
+  --color-brand-600: #58941f;
+  --color-brand-700: #427318;
+  --color-brand-800: #345a17;
+  --color-brand-900: #2c4a17;
+
+  --color-azure-50: #ecf8fe;
+  --color-azure-100: #d3eefc;
+  --color-azure-200: #a9defa;
+  --color-azure-300: #74c9f5;
+  --color-azure-400: #3fb1ec;
+  --color-azure-500: #1b96d8;
+  --color-azure-600: #0f77b4;
+  --color-azure-700: #0e5f91;
+  --color-azure-800: #115078;
+  --color-azure-900: #134363;
+
+  --color-ink-50: #f6f7f9;
+  --color-ink-100: #eceef2;
+  --color-ink-200: #d5d9e2;
+  --color-ink-300: #b1b9c8;
+  --color-ink-400: #8792a8;
+  --color-ink-500: #67738c;
+  --color-ink-600: #515c73;
+  --color-ink-700: #424a5d;
+  --color-ink-800: #3a404f;
+  --color-ink-900: #0b1220;
+
+  --color-canvas: #fbfcfd;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, sans-serif;
+
+  --radius-4xl: 2rem;
+  --radius-5xl: 2.5rem;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchor targets so the sticky header never covers a heading. */
+    scroll-padding-top: 6rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible, on-brand focus ring for keyboard users. */
+  :focus-visible {
+    outline: 2px solid var(--color-azure-500);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-200);
+    color: var(--color-ink-900);
+  }
+}
+
+@layer utilities {
+  /* Gradient text used sparingly on hero and section headline accents. */
+  .text-gradient {
+    background-image: linear-gradient(
+      100deg,
+      var(--color-brand-600) 0%,
+      var(--color-brand-500) 35%,
+      var(--color-azure-500) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgb(11 18 32 / 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(11 18 32 / 0.04) 1px, transparent 1px);
+    background-size: 56px 56px;
+  }
+
+  /* Soft brand blur used behind hero and CTA sections. */
+  .blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(72px);
+    pointer-events: none;
+    will-change: transform;
+  }
+}
+
+/*
+ * Accessibility: users who ask their OS to reduce motion get a static site.
+ * The loader, scroll reveals, and count-ups all check this as well.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Intro loader animation ------------------------------------------- */
+
+@keyframes brand-draw {
+  from {
+    stroke-dashoffset: 340;
+    opacity: 0;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes intro-fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.brand-mark-stroke {
+  stroke-dasharray: 340;
+  animation: brand-draw 620ms var(--ease-out-expo) forwards;
+}
+
+.brand-mark-stroke-2 {
+  animation-delay: 110ms;
+  opacity: 0;
+}
+
+.intro-fade {
+  opacity: 0;
+  animation: intro-fade 400ms var(--ease-out-expo) 260ms forwards;
+}
+
+/* --- Markdown article body --------------------------------------------- */
+
+.post-body {
+  color: var(--color-ink-600);
+  font-size: 1.0625rem;
+  line-height: 1.75;
+}
+
+.post-body > * + * {
+  margin-top: 1.15em;
+}
+
+.post-body h2 {
+  margin-top: 2.4em;
+  margin-bottom: 0.6em;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-ink-900);
+}
+
+.post-body h3 {
+  margin-top: 1.9em;
+  margin-bottom: 0.5em;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-ink-900);
+}
+
+.post-body ul,
+.post-body ol {
+  padding-left: 1.35rem;
+}
+
+.post-body ul {
+  list-style: disc;
+}
+
+.post-body ol {
+  list-style: decimal;
+}
+
+.post-body li + li {
+  margin-top: 0.45em;
+}
+
+.post-body strong {
+  font-weight: 650;
+  color: var(--color-ink-900);
+}
+
+.post-body a {
+  color: var(--color-brand-700);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.post-body blockquote {
+  border-left: 3px solid var(--color-brand-500);
+  background: var(--color-brand-50);
+  padding: 1rem 1.35rem;
+  border-radius: 0 1rem 1rem 0;
+}
+
+.post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.post-body th,
+.post-body td {
+  border-bottom: 1px solid var(--color-ink-100);
+  padding: 0.7rem 0.9rem 0.7rem 0;
+  text-align: left;
+}
+
+.post-body th {
+  font-weight: 650;
+  color: var(--color-ink-900);
+}
