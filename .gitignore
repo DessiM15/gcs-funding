@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local reference copy of the previous WordPress site (2.5MB of scraped HTML).
+# Kept on disk for fact-checking copy, not source.
+.oldsite/
+.DS_Store
