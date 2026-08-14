@@ -2,13 +2,13 @@ import { ArrowRight } from "lucide-react";
 
 import { Magnetic } from "@/components/atmosphere";
 import {
-  CtaSection,
   FaqSection,
   HighlightRow,
   LinkList,
   NumberedList,
   PageHero,
 } from "@/components/sections/shared";
+import { LeadSection } from "@/components/sections/lead-section";
 import {
   ButtonLink,
   Container,
@@ -116,7 +116,7 @@ export default function PartnersPage() {
         actions={
           <>
             <Magnetic>
-              <ButtonLink href="/contact" variant="accent" size="lg">
+              <ButtonLink href="#get-started" variant="accent" size="lg">
                 Become a partner <ArrowRight className="h-4 w-4" />
               </ButtonLink>
             </Magnetic>
@@ -167,10 +167,11 @@ export default function PartnersPage() {
 
       <FaqSection faqs={FAQS} title="Partner program questions" />
 
-      <CtaSection
+      <LeadSection
+        label="Become a partner"
         title="Let's get your program set up"
         body="Tell us your industry and average ticket. We will come back within one business day with the promotional terms and lender mix that fit your business."
-        cta="Become a partner"
+        defaultPath="partner"
       />
     </>
   );

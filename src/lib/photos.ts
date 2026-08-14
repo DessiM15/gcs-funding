@@ -18,7 +18,7 @@ export const photos = {
   },
   truckNight: {
     src: "/photos/truck-night.jpg",
-    alt: "A semi truck on the road at night",
+    alt: "A semi truck and trailer on the highway at dusk",
   },
   kitchen: {
     src: "/photos/kitchen-remodel.jpg",

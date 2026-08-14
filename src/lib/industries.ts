@@ -19,6 +19,8 @@ export type Industry = {
   metaTitle: string;
   metaDescription: string;
   targetKeyword: string;
+  /** Must match a chip label in the form's industry list so it pre-selects. */
+  formIndustry: string;
   /** The objection that kills their deals. Opens the page. */
   problem: string;
   intro: string;
@@ -31,6 +33,7 @@ export type Industry = {
 export const industries: Industry[] = [
   {
     slug: "pool-companies",
+    formIndustry: "Pool builder / outdoor living",
     name: "Pool Builders & Service",
     audience: "pool builders",
     h1: "Customer financing for pool builders",
@@ -66,6 +69,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "hvac-contractors",
+    formIndustry: "HVAC",
     name: "HVAC Contractors",
     audience: "HVAC contractors",
     h1: "Customer financing for HVAC contractors",
@@ -101,6 +105,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "roofing-companies",
+    formIndustry: "Roofing",
     name: "Roofing Contractors",
     audience: "roofing contractors",
     h1: "Customer financing for roofing companies",
@@ -136,6 +141,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "home-remodeling",
+    formIndustry: "Remodeling / home improvement",
     name: "Remodeling & Home Improvement",
     audience: "remodelers",
     h1: "Customer financing for remodeling contractors",
@@ -171,6 +177,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "medical-and-med-spa",
+    formIndustry: "Medical / med spa",
     name: "Medical & Med Spa",
     audience: "medical and aesthetic practices",
     h1: "Patient financing for medical and med spa practices",
@@ -206,6 +213,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "dental-practices",
+    formIndustry: "Dental",
     name: "Dental Practices",
     audience: "dental practices",
     h1: "Patient financing for dental practices",
@@ -241,6 +249,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "auto-repair-and-sales",
+    formIndustry: "Auto sales or repair",
     name: "Auto Repair & Sales",
     audience: "auto repair shops and dealers",
     h1: "Customer financing for auto repair shops and dealers",
@@ -276,6 +285,7 @@ export const industries: Industry[] = [
   },
   {
     slug: "landscaping-and-outdoor-living",
+    formIndustry: "Landscaping",
     name: "Landscaping & Outdoor Living",
     audience: "landscape and outdoor living contractors",
     h1: "Customer financing for landscaping and outdoor living companies",

@@ -148,7 +148,7 @@ export default function AboutPage() {
             flip
             label="What we believe"
             title="Four things we believe about getting a deal done"
-            photo={photos.truckNight}
+            photo={photos.houstonNight}
             body={
               <p>
                 Twenty years of placing files teaches you which parts of this business

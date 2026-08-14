@@ -1,9 +1,9 @@
 import { ArrowRight } from "lucide-react";
 
 import { Magnetic } from "@/components/atmosphere";
+import { Reveal } from "@/components/motion/reveal";
+import { LeadSection } from "@/components/sections/lead-section";
 import {
-  CtaSection,
-  FaqSection,
   LinkList,
   NumberedList,
   PageHero,
@@ -14,11 +14,12 @@ import {
   ButtonLink,
   Container,
   Heading,
+  Label,
   Section,
 } from "@/components/ui/primitives";
 import { industries } from "@/lib/industries";
 import { photos } from "@/lib/photos";
-import { JsonLd, breadcrumbSchema, faqSchema } from "@/lib/schema";
+import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 import { services } from "@/lib/services";
 import { site } from "@/lib/site";
@@ -30,25 +31,6 @@ export const metadata = buildMetadata({
   path: "/",
 });
 
-const HOME_FAQS = [
-  {
-    q: "How does offering customer financing work for my business?",
-    a: "Your customer completes one paperless application on any device. We soft-pull their credit and return live offers from more than 20 lenders in about ten seconds, with approvals down to roughly a 500 FICO. They pick the offer that fits, and your business is paid directly within 24 hours. There is no setup fee, no monthly fee, and no equipment to buy.",
-  },
-  {
-    q: "What kinds of businesses do you work with?",
-    a: "Small and mid-sized businesses across the Houston area, including pool builders, HVAC and roofing contractors, remodelers, landscapers, medical and dental practices, med spas, auto sales and repair, and retail. For card processing we are the strongest fit for merchants running roughly $10,000 to $100,000 per month in volume.",
-  },
-  {
-    q: "Do you work with businesses that have been declined elsewhere?",
-    a: "Yes. High-risk merchant placement and second-chance equipment financing are specialties. Our programs cover bankruptcies, tax liens, judgments, repossessions, slow pays, and startups with limited time in business.",
-  },
-  {
-    q: "How long has GCS Funding been in business?",
-    a: `GCS Funding was created in 2003 and is now in its ${site.stats.yearsInBusiness}th year, with more than 5,000 merchants processing on our platforms and a network of over 20 national lenders covering every credit tier.`,
-  },
-];
-
 const STEPS = [
   {
     title: "One application",
@@ -56,7 +38,7 @@ const STEPS = [
   },
   {
     title: "Live offers in ten seconds",
-    body: "A soft credit pull returns real offers from our lender network in about ten seconds, with no effect on their score.",
+    body: "A soft credit pull returns real offers from our lender network, with no effect on their score.",
   },
   {
     title: "They choose the payment",
@@ -64,16 +46,14 @@ const STEPS = [
   },
   {
     title: "You are paid in 24 hours",
-    body: "Funds are issued directly to your business within a day. You never carry the balance and never chase the collection.",
+    body: "Funds are issued directly to your business. You never carry the balance and never chase the collection.",
   },
 ];
 
 export default function HomePage() {
   return (
     <>
-      <JsonLd
-        schemas={[faqSchema(HOME_FAQS), breadcrumbSchema([{ name: "Home", path: "/" }])]}
-      />
+      <JsonLd schemas={[breadcrumbSchema([{ name: "Home", path: "/" }])]} />
 
       <PageHero
         tall
@@ -82,8 +62,7 @@ export default function HomePage() {
         photo={photos.houstonNight}
         title={
           <>
-            Let your customers
-            {" "}
+            Let your customers{" "}
             <br className="hidden sm:inline" />
             say yes. <span className="text-accent">Every time.</span>
           </>
@@ -91,8 +70,10 @@ export default function HomePage() {
         intro={`Offer instant financing at the point of sale. One application reaches ${site.stats.lenders}+ lenders, approvals come back in about ten seconds, and your business is paid in full within 24 hours.`}
         actions={
           <>
+            {/* Anchors to the form further down rather than navigating away —
+                the visitor never leaves the page to start. */}
             <Magnetic>
-              <ButtonLink href="/contact" variant="accent" size="lg">
+              <ButtonLink href="#get-started" variant="accent" size="lg">
                 Become a partner <ArrowRight className="h-4 w-4" />
               </ButtonLink>
             </Magnetic>
@@ -106,39 +87,71 @@ export default function HomePage() {
         }
       />
 
-      {/* ------------------------------------------------------------ Proof */}
-      <Section tone="dark" id="proof" rail="Proof" className="py-0 sm:py-0">
+      {/* ------------------------------------------- Proof + who we are ----
+          The stats and the twenty-year story share one section; they were two
+          separate full-height blocks before, saying the same thing twice. */}
+      <Section tone="dark" id="proof" rail="Proof" className="py-20 sm:py-24">
         <Container>
           <StatBand />
+
+          <div className="mt-16 grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-20">
+            <Reveal>
+              <Label tone="light">Why GCS Funding</Label>
+              <h2 className="display-sm mt-7 text-white">
+                Twenty years of getting deals funded when the bank said no
+              </h2>
+            </Reveal>
+
+            <Reveal delay={0.08}>
+              <div className="space-y-5 text-lg leading-relaxed text-mist">
+                <p>
+                  GCS Funding was created in 2003, back when receipts still came
+                  off carbon paper. More than{" "}
+                  {site.stats.merchants.toLocaleString()} merchants have trusted
+                  us with their daily business since.
+                </p>
+                <p>
+                  A broker is only worth what their lender network is worth. Ours
+                  covers every credit tier, from perfect credit to owners who have
+                  been through a bankruptcy. That is why we say yes on files that
+                  get one answer at a bank.
+                </p>
+              </div>
+              <div className="mt-8">
+                <ButtonLink href="/about" variant="outlineLight" size="md">
+                  More about GCS Funding <ArrowRight className="h-4 w-4" />
+                </ButtonLink>
+              </div>
+            </Reveal>
+          </div>
         </Container>
       </Section>
 
-      {/* ----------------------------------------------------------- Offers */}
-      <Section tone="light" id="what-we-do" rail="What we do">
+      {/* ------------------------------------------------------ What we do */}
+      <Section tone="light" id="what-we-do" rail="What we do" className="py-20 sm:py-24">
         <Container>
-          <div className="grid gap-14 lg:grid-cols-[30rem_1fr] lg:gap-24">
+          <div className="grid gap-14 lg:grid-cols-[28rem_1fr] lg:gap-20">
             <Heading
               label="What we do"
               title="Three ways we move money for you"
               intro="A lending and payments brokerage built around the two problems every business owner actually has: customers who cannot pay all at once, and costs that quietly eat the margin."
               className="lg:sticky lg:top-32 lg:self-start"
             />
-
-            <div>
-              <LinkList
-                items={services.map((service) => ({
-                  href: `/services/${service.slug}`,
-                  title: service.nav,
-                  meta: service.eyebrow,
-                }))}
-              />
-            </div>
+            <LinkList
+              items={services.map((service) => ({
+                href: `/services/${service.slug}`,
+                title: service.nav,
+                meta: service.eyebrow,
+              }))}
+            />
           </div>
         </Container>
       </Section>
 
-      {/* ---------------------------------------------------------- Partner */}
-      <Section tone="paper" id="partner" rail="Partner">
+      {/* ------------------------------- Partner story + how it works ------
+          The four steps sit inside this section rather than occupying one of
+          their own; they are the mechanics of the argument being made here. */}
+      <Section tone="paper" id="partner" rail="Partner" className="py-20 sm:py-24">
         <Container>
           <SplitFeature
             label="Partner program"
@@ -152,10 +165,10 @@ export default function HomePage() {
                   package, or dies in the driveway entirely.
                 </p>
                 <p>
-                  Present a monthly payment alongside the total and the conversation
-                  changes. Buyers stop evaluating a lump sum and start evaluating a
-                  payment, which is the only number most of them were weighing in the
-                  first place. The upgrades survive. So does your margin.
+                  Present a monthly payment alongside the total and the
+                  conversation changes. Buyers stop evaluating a lump sum and start
+                  evaluating a payment. The upgrades survive, and so does your
+                  margin.
                 </p>
               </>
             }
@@ -166,34 +179,26 @@ export default function HomePage() {
               </ButtonLink>
             </div>
           </SplitFeature>
-        </Container>
-      </Section>
 
-      {/* ----------------------------------------------------- How it works */}
-      <Section tone="dark" id="how-it-works" rail="How it works">
-        <Container>
-          <Heading
-            tone="light"
-            label="How it works"
-            title="From estimate to approved, in about a minute"
-          />
-          <div className="mt-16">
-            <NumberedList items={STEPS} tone="light" />
+          <div className="mt-20">
+            <Label>How it works</Label>
+            <div className="mt-8">
+              <NumberedList items={STEPS} />
+            </div>
           </div>
         </Container>
       </Section>
 
-      {/* -------------------------------------------------------- Industries */}
-      <Section tone="light" id="industries" rail="Industries">
+      {/* ------------------------------------------------------- Industries */}
+      <Section tone="light" id="industries" rail="Industries" className="py-20 sm:py-24">
         <Container>
-          <div className="grid gap-14 lg:grid-cols-[30rem_1fr] lg:gap-24">
+          <div className="grid gap-14 lg:grid-cols-[28rem_1fr] lg:gap-20">
             <Heading
               label="Industries"
               title="Built for the businesses where price is the last objection"
               intro="Every industry below sells a high-ticket, largely discretionary purchase. That is exactly where a monthly payment turns a maybe into a signature."
               className="lg:sticky lg:top-32 lg:self-start"
             />
-
             <LinkList
               items={industries.map((industry) => ({
                 href: `/partners/${industry.slug}`,
@@ -205,44 +210,7 @@ export default function HomePage() {
         </Container>
       </Section>
 
-      {/* --------------------------------------------------------- Authority */}
-      <Section tone="paper" id="about" rail="About">
-        <Container>
-          <SplitFeature
-            flip
-            label={`Since ${site.founded}`}
-            title="Twenty years of getting deals funded when the bank said no"
-            photo={photos.houstonTower}
-            body={
-              <>
-                <p>
-                  GCS Funding was created in 2003, back when receipts still came off
-                  carbon paper. We have watched the payment industry move from
-                  imprinters to touchless processing, and more than{" "}
-                  {site.stats.merchants.toLocaleString()} merchants have trusted us
-                  with their daily business along the way.
-                </p>
-                <p>
-                  A broker is only worth what their lender network is worth. Ours
-                  covers every credit tier, from perfect credit to first-time buyers
-                  with no history to owners who have been through a bankruptcy. That
-                  is why we can say yes on files that get one answer at a bank.
-                </p>
-              </>
-            }
-          >
-            <div className="mt-10">
-              <ButtonLink href="/about" variant="outline" size="md">
-                More about GCS Funding <ArrowRight className="h-4 w-4" />
-              </ButtonLink>
-            </div>
-          </SplitFeature>
-        </Container>
-      </Section>
-
-      <FaqSection faqs={HOME_FAQS} title="The questions we get first" />
-
-      <CtaSection />
+      <LeadSection title="Tell us about the business" />
     </>
   );
 }

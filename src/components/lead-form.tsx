@@ -98,12 +98,22 @@ const PATH_FIELDS: Record<LeadPath, FieldOption[]> = {
 
 type Values = Record<string, string | boolean>;
 
-export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
+export function LeadForm({
+  defaultPath,
+  defaultIndustry,
+}: {
+  defaultPath?: LeadPath;
+  /** Pre-selects the industry chip when arriving from an industry page. */
+  defaultIndustry?: string;
+}) {
   const router = useRouter();
   const reduced = useReducedMotion();
 
   const [step, setStep] = useState(defaultPath ? 1 : 0);
-  const [values, setValues] = useState<Values>({ path: defaultPath ?? "" });
+  const [values, setValues] = useState<Values>({
+    path: defaultPath ?? "",
+    ...(defaultIndustry ? { industry: defaultIndustry } : {}),
+  });
   const [errors, setErrors] = useState<Record<string, string[]>>({});
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);

@@ -17,6 +17,8 @@ export type Service = {
   metaDescription: string;
   /** The single query this page is built to win. */
   targetKeyword: string;
+  /** Which branch of the enquiry form this page's CTA should open on. */
+  leadPath: "partner" | "capital" | "processing";
   eyebrow: string;
   intro: string;
   highlights: { label: string; value: string }[];
@@ -28,6 +30,7 @@ export type Service = {
 export const services: Service[] = [
   {
     slug: "consumer-financing",
+    leadPath: "partner",
     nav: "Consumer Financing",
     h1: "Let your customers say yes to the full job",
     metaTitle: "Customer Financing for Businesses | GCS Funding Houston",
@@ -94,6 +97,7 @@ export const services: Service[] = [
   },
   {
     slug: "business-line-of-credit",
+    leadPath: "capital",
     nav: "Business Line of Credit",
     h1: "A business line of credit that is there before you need it",
     metaTitle: "Business Line of Credit in Houston, TX | GCS Funding",
@@ -155,6 +159,7 @@ export const services: Service[] = [
   },
   {
     slug: "equipment-financing",
+    leadPath: "capital",
     nav: "Equipment & Truck Financing",
     h1: "Equipment and commercial truck financing, including credit others decline",
     metaTitle: "Equipment & Commercial Truck Financing | GCS Funding TX",
@@ -209,6 +214,7 @@ export const services: Service[] = [
   },
   {
     slug: "credit-card-processing",
+    leadPath: "processing",
     nav: "Card Processing & Surcharge",
     h1: "Keep 100% of your published prices",
     metaTitle: "Credit Card Surcharge Program Houston | GCS Funding",
@@ -263,6 +269,7 @@ export const services: Service[] = [
   },
   {
     slug: "personal-loans",
+    leadPath: "capital",
     nav: "Personal Loans",
     h1: "Personal loans for whatever life brings your way",
     metaTitle: "Personal Loans in Houston, TX | GCS Funding",

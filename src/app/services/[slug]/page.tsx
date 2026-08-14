@@ -4,13 +4,13 @@ import { ArrowRight } from "lucide-react";
 import { Magnetic } from "@/components/atmosphere";
 import { Reveal } from "@/components/motion/reveal";
 import {
-  CtaSection,
   FaqSection,
   HighlightRow,
   LinkList,
   NumberedList,
   PageHero,
 } from "@/components/sections/shared";
+import { LeadSection } from "@/components/sections/lead-section";
 import {
   ButtonLink,
   Container,
@@ -83,7 +83,7 @@ export default async function ServicePage({
         photo={photoForService(service.slug)}
         actions={
           <Magnetic>
-            <ButtonLink href="/contact" variant="accent" size="lg">
+            <ButtonLink href="#get-started" variant="accent" size="lg">
               Get started <ArrowRight className="h-4 w-4" />
             </ButtonLink>
           </Magnetic>
@@ -162,7 +162,10 @@ export default async function ServicePage({
         </Container>
       </Section>
 
-      <CtaSection />
+      <LeadSection
+        title="Let's find out what you qualify for"
+        defaultPath={service.leadPath}
+      />
     </>
   );
 }

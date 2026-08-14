@@ -3,12 +3,8 @@ import { ArrowRight, Check } from "lucide-react";
 
 import { Magnetic } from "@/components/atmosphere";
 import { Reveal } from "@/components/motion/reveal";
-import {
-  CtaSection,
-  FaqSection,
-  LinkList,
-  PageHero,
-} from "@/components/sections/shared";
+import { FaqSection, LinkList, PageHero } from "@/components/sections/shared";
+import { LeadSection } from "@/components/sections/lead-section";
 import {
   ButtonLink,
   Container,
@@ -82,7 +78,7 @@ export default async function IndustryPage({
         actions={
           <>
             <Magnetic>
-              <ButtonLink href="/contact" variant="accent" size="lg">
+              <ButtonLink href="#get-started" variant="accent" size="lg">
                 Become a partner <ArrowRight className="h-4 w-4" />
               </ButtonLink>
             </Magnetic>
@@ -178,10 +174,14 @@ export default async function IndustryPage({
         </Container>
       </Section>
 
-      <CtaSection
+      {/* Pre-selected to the partner path with this industry already chosen,
+          so arriving from here skips straight to the average-ticket question. */}
+      <LeadSection
+        label="Become a partner"
         title="Ready to offer financing to your customers?"
-        body="Tell us about your business and your average ticket, and we will come back within one business day with the program that fits."
-        cta="Become a partner"
+        body="We have already filled in your industry. Tell us your average ticket and we will come back within one business day with the program that fits."
+        defaultPath="partner"
+        defaultIndustry={industry.formIndustry}
       />
     </>
   );
