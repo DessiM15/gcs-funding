@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 import { Reveal } from "@/components/motion/reveal";
-import { Blobs, Breadcrumbs, CtaSection } from "@/components/sections/shared";
-import { Card, Container, Eyebrow, Section } from "@/components/ui/primitives";
+import { CtaSection, PageHero } from "@/components/sections/shared";
+import { Container, Heading, Section } from "@/components/ui/primitives";
+import { photos } from "@/lib/photos";
 import { getAllPosts } from "@/lib/posts";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
@@ -26,54 +27,51 @@ export default function BlogPage() {
     <>
       <JsonLd schemas={[breadcrumbSchema(trail)]} />
 
-      <section className="relative overflow-hidden pb-14 pt-12">
-        <Blobs />
-        <Container className="relative">
-          <Breadcrumbs trail={trail} />
-          <div className="max-w-3xl">
-            <Reveal>
-              <Eyebrow>Insights</Eyebrow>
-              <h1 className="mt-6 text-[2.3rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink-900 sm:text-5xl">
-                What we tell business owners
-              </h1>
-              <p className="mt-7 text-lg leading-relaxed text-ink-500">
-                Twenty years of answering the same questions, written down so you
-                do not have to call to get the answer.
-              </p>
-            </Reveal>
-          </div>
-        </Container>
-      </section>
+      <PageHero
+        priority
+        trail={trail}
+        label="Insights"
+        title="What we tell business owners"
+        intro="Twenty years of answering the same questions, written down so you do not have to call to get the answer."
+        photo={photos.kitchen}
+      />
 
-      <Section>
+      <Section tone="light" id="articles" rail="Articles">
         <Container>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <Heading label="Guides" title="Latest articles" />
+
+          <ul className="mt-16 border-t hairline">
             {posts.map((post, index) => (
-              <Reveal key={post.slug} delay={index * 0.05}>
-                <Link href={`/blog/${post.slug}`} className="block h-full">
-                  <Card className="flex h-full flex-col">
-                    <span className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand-700">
-                      {post.category}
-                    </span>
-                    <h2 className="mt-3 text-xl font-bold leading-snug text-ink-900">
-                      {post.title}
-                    </h2>
-                    <p className="mt-3 flex-1 leading-relaxed text-ink-500">
-                      {post.description}
-                    </p>
-                    <span className="mt-5 flex items-center justify-between text-sm">
-                      <span className="text-ink-400">
-                        {post.readingTime} min read
-                      </span>
-                      <span className="inline-flex items-center gap-1 font-semibold text-brand-700">
-                        Read <ArrowRight className="h-3.5 w-3.5" />
-                      </span>
-                    </span>
-                  </Card>
-                </Link>
-              </Reveal>
+              <li key={post.slug} className="border-b hairline">
+                <Reveal delay={index * 0.04}>
+                  <Link href={`/blog/${post.slug}`} className="group/row block py-10">
+                    <div className="grid gap-6 md:grid-cols-[10rem_1fr_2.5rem] md:items-start md:gap-12">
+                      <span className="label text-accent-ink">{post.category}</span>
+
+                      <div>
+                        <h2 className="font-display text-2xl font-bold leading-tight tracking-[-0.035em] text-ink transition-colors group-hover/row:text-accent-ink sm:text-3xl">
+                          {post.title}
+                        </h2>
+                        <p className="mt-4 max-w-2xl leading-relaxed text-ink-soft">
+                          {post.description}
+                        </p>
+                        <p className="label mt-5 text-ink-soft">
+                          {new Date(post.date).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}{" "}
+                          · {post.readingTime} min read
+                        </p>
+                      </div>
+
+                      <ArrowUpRight className="hidden h-5 w-5 text-accent-ink transition-transform duration-300 group-hover/row:translate-x-1 group-hover/row:-translate-y-1 md:block" />
+                    </div>
+                  </Link>
+                </Reveal>
+              </li>
             ))}
-          </div>
+          </ul>
         </Container>
       </Section>
 

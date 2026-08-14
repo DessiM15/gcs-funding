@@ -10,66 +10,120 @@ export function Container({
   children: ReactNode;
 }) {
   return (
-    <div className={cn("mx-auto w-full max-w-6xl px-5 sm:px-8", className)}>
+    <div className={cn("mx-auto w-full max-w-[88rem] px-6 sm:px-10", className)}>
       {children}
     </div>
   );
 }
 
+/**
+ * Section shell. `tone` sets the ground; dark sections carry the grain layer.
+ */
 export function Section({
   className,
   children,
   id,
+  tone = "light",
+  rail,
 }: {
   className?: string;
   children: ReactNode;
   id?: string;
+  tone?: "light" | "paper" | "dark";
+  /** Registers this section with the scroll-spy rail under the given label. */
+  rail?: string;
 }) {
+  const tones = {
+    light: "bg-bone text-ink",
+    paper: "bg-paper text-ink",
+    dark: "bg-void text-white grain",
+  } as const;
+
   return (
-    <section id={id} className={cn("relative py-20 sm:py-28", className)}>
+    <section
+      id={id}
+      data-rail={rail}
+      className={cn("relative py-24 sm:py-32", tones[tone], className)}
+    >
       {children}
     </section>
   );
 }
 
-export function Eyebrow({ children }: { children: ReactNode }) {
+/** Uppercase tracked micro-label with a leading accent tick. */
+export function Label({
+  children,
+  tone = "dark",
+  className,
+}: {
+  children: ReactNode;
+  tone?: "dark" | "light";
+  className?: string;
+}) {
   return (
-    <span className="inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-brand-700">
+    <span
+      className={cn(
+        "label inline-flex items-center gap-3",
+        tone === "light" ? "text-mist" : "text-ink-soft",
+        className,
+      )}
+    >
+      <span className="h-px w-8 bg-accent" aria-hidden="true" />
       {children}
     </span>
   );
 }
 
-const buttonBase =
-  "inline-flex items-center justify-center gap-2 rounded-full font-semibold transition-all duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-60";
+/** The 01 / 02 / 03 markers that replace icon cards. */
+export function SectionNumber({
+  value,
+  tone = "dark",
+}: {
+  value: number;
+  tone?: "dark" | "light";
+}) {
+  return (
+    <span
+      aria-hidden="true"
+      className={cn(
+        "font-display text-[0.8rem] font-bold tracking-[0.2em]",
+        tone === "light" ? "text-accent" : "text-accent-ink",
+      )}
+    >
+      {String(value).padStart(2, "0")}
+    </span>
+  );
+}
+
+const base =
+  "group/btn relative inline-flex items-center justify-center gap-2.5 font-semibold uppercase tracking-[0.12em] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] disabled:pointer-events-none disabled:opacity-50";
 
 const variants = {
-  primary:
-    "bg-ink-900 text-white shadow-[0_8px_24px_-8px_rgb(11_18_32/0.5)] hover:-translate-y-0.5 hover:shadow-[0_14px_32px_-10px_rgb(11_18_32/0.55)]",
-  brand:
-    "bg-gradient-to-r from-brand-500 to-brand-600 text-white shadow-[0_8px_24px_-8px_rgb(88_148_31/0.6)] hover:-translate-y-0.5 hover:shadow-[0_14px_34px_-10px_rgb(88_148_31/0.7)]",
+  accent:
+    "bg-accent text-void hover:bg-white",
+  solid:
+    "bg-ink text-white hover:bg-accent hover:text-void",
   outline:
-    "border border-ink-200 bg-white text-ink-900 hover:border-ink-900 hover:-translate-y-0.5",
-  ghost: "text-ink-700 hover:text-ink-900 hover:bg-ink-50",
+    "border border-ink/25 text-ink hover:border-ink hover:bg-ink hover:text-white",
+  outlineLight:
+    "border border-white/30 text-white hover:border-white hover:bg-white hover:text-void",
+  bare: "text-ink hover:text-accent-ink",
 } as const;
 
 const sizes = {
-  sm: "h-10 px-5 text-sm",
-  md: "h-12 px-6 text-[0.95rem]",
-  lg: "h-14 px-8 text-base",
+  sm: "h-10 px-5 text-[0.7rem]",
+  md: "h-12 px-7 text-[0.72rem]",
+  lg: "h-14 px-9 text-[0.75rem]",
 } as const;
 
-type ButtonStyleProps = {
-  variant?: keyof typeof variants;
-  size?: keyof typeof sizes;
-};
+type StyleProps = { variant?: keyof typeof variants; size?: keyof typeof sizes };
 
 export function buttonClass({
-  variant = "primary",
+  variant = "accent",
   size = "md",
   className,
-}: ButtonStyleProps & { className?: string } = {}) {
-  return cn(buttonBase, variants[variant], sizes[size], className);
+}: StyleProps & { className?: string } = {}) {
+  return cn(base, variants[variant], sizes[size], className);
 }
 
 export function ButtonLink({
@@ -77,7 +131,7 @@ export function ButtonLink({
   size,
   className,
   ...props
-}: ButtonStyleProps & ComponentProps<typeof Link>) {
+}: StyleProps & ComponentProps<typeof Link>) {
   return <Link className={buttonClass({ variant, size, className })} {...props} />;
 }
 
@@ -86,62 +140,47 @@ export function Button({
   size,
   className,
   ...props
-}: ButtonStyleProps & ComponentProps<"button">) {
-  return (
-    <button className={buttonClass({ variant, size, className })} {...props} />
-  );
+}: StyleProps & ComponentProps<"button">) {
+  return <button className={buttonClass({ variant, size, className })} {...props} />;
 }
 
-export function Card({
-  className,
-  children,
-}: {
-  className?: string;
-  children: ReactNode;
-}) {
-  return (
-    <div
-      className={cn(
-        "group relative rounded-3xl border border-ink-100 bg-white p-7 shadow-[0_1px_2px_rgb(11_18_32/0.04)] transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-ink-200 hover:shadow-[0_18px_40px_-20px_rgb(11_18_32/0.22)]",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-/** Section heading with an optional gradient-accented trailing phrase. */
+/**
+ * Section heading. Always left-aligned — centred headings were the single
+ * biggest reason the earlier design read as a template.
+ */
 export function Heading({
-  eyebrow,
+  label,
   title,
-  accent,
-  subtitle,
-  align = "center",
+  intro,
+  tone = "dark",
   className,
 }: {
-  eyebrow?: string;
-  title: string;
-  accent?: string;
-  subtitle?: string;
-  align?: "center" | "left";
+  label?: string;
+  title: ReactNode;
+  intro?: string;
+  tone?: "dark" | "light";
   className?: string;
 }) {
   return (
-    <div
-      className={cn(
-        "max-w-2xl",
-        align === "center" ? "mx-auto text-center" : "text-left",
-        className,
-      )}
-    >
-      {eyebrow ? <Eyebrow>{eyebrow}</Eyebrow> : null}
-      <h2 className="mt-5 text-3xl font-bold leading-[1.12] text-ink-900 sm:text-4xl md:text-[2.75rem]">
+    <div className={cn("max-w-3xl", className)}>
+      {label ? <Label tone={tone}>{label}</Label> : null}
+      <h2
+        className={cn(
+          "display-sm mt-7",
+          tone === "light" ? "text-white" : "text-ink",
+        )}
+      >
         {title}
-        {accent ? <span className="text-gradient"> {accent}</span> : null}
       </h2>
-      {subtitle ? (
-        <p className="mt-5 text-lg leading-relaxed text-ink-500">{subtitle}</p>
+      {intro ? (
+        <p
+          className={cn(
+            "mt-7 max-w-2xl text-lg leading-relaxed",
+            tone === "light" ? "text-mist" : "text-ink-soft",
+          )}
+        >
+          {intro}
+        </p>
       ) : null}
     </div>
   );

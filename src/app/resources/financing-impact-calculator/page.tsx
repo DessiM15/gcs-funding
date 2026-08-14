@@ -1,12 +1,8 @@
 import { FinancingImpactCalculator } from "@/components/calculators";
 import { Reveal } from "@/components/motion/reveal";
-import {
-  Blobs,
-  Breadcrumbs,
-  CtaSection,
-  FaqSection,
-} from "@/components/sections/shared";
-import { Container, Eyebrow } from "@/components/ui/primitives";
+import { CtaSection, FaqSection, PageHero } from "@/components/sections/shared";
+import { Container, Section } from "@/components/ui/primitives";
+import { photos } from "@/lib/photos";
 import { JsonLd, breadcrumbSchema, faqSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 
@@ -46,31 +42,20 @@ export default function FinancingImpactCalculatorPage() {
     <>
       <JsonLd schemas={[faqSchema(FAQS), breadcrumbSchema(trail)]} />
 
-      <section className="relative overflow-hidden pb-16 pt-12">
-        <Blobs />
-        <Container className="relative">
-          <Breadcrumbs trail={trail} />
+      <PageHero
+        priority
+        trail={trail}
+        label="Free tool"
+        title="What would financing be worth to your business?"
+        intro="Two things change when you offer financing at the point of sale: you close deals that price would have killed, and the jobs you do close get bigger. Put your own numbers in and see what that adds up to over a year."
+        photo={photos.kitchen}
+      />
 
-          <div className="max-w-3xl">
-            <Reveal>
-              <Eyebrow>Free tool</Eyebrow>
-              <h1 className="mt-6 text-[2.2rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink-900 sm:text-5xl">
-                What would financing be worth to your business?
-              </h1>
-              <p className="mt-6 text-lg leading-relaxed text-ink-500">
-                Two things change when you offer financing at the point of sale:
-                you close deals that price would have killed, and the jobs you do
-                close get bigger. Put your own numbers in and see what that adds up
-                to over a year.
-              </p>
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.12} className="mt-14">
-            <FinancingImpactCalculator />
-          </Reveal>
+      <Section tone="light" id="calculator" rail="Calculator">
+        <Container>
+          <Reveal><FinancingImpactCalculator /></Reveal>
         </Container>
-      </section>
+      </Section>
 
       <FaqSection faqs={FAQS} title="About the assumptions" />
       <CtaSection

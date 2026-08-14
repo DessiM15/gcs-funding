@@ -21,7 +21,10 @@ export function CountUp({
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
   const reduced = useReducedMotion();
-  const [value, setValue] = useState(0);
+  // Seeded with the final value so the server-rendered HTML always carries the
+  // real number. The animation resets to zero only once the element is on
+  // screen, by which point the visitor is mid-scroll and never sees the reset.
+  const [value, setValue] = useState(to);
 
   useEffect(() => {
     if (!inView || reduced) return;

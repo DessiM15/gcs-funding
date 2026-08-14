@@ -2,8 +2,7 @@ import { Clock, Mail, MapPin, ShieldCheck } from "lucide-react";
 
 import { LeadForm } from "@/components/lead-form";
 import { Reveal } from "@/components/motion/reveal";
-import { Blobs, Breadcrumbs } from "@/components/sections/shared";
-import { Container, Eyebrow } from "@/components/ui/primitives";
+import { Container, Label, Section } from "@/components/ui/primitives";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -19,7 +18,7 @@ const ASSURANCES = [
   {
     icon: Clock,
     title: "A reply within one business day",
-    body: "Every enquiry goes straight to us. No queue, no call center, no chatbot in between.",
+    body: "Every enquiry comes straight to us. No queue, no call centre, no chatbot in between.",
   },
   {
     icon: ShieldCheck,
@@ -43,79 +42,81 @@ export default function ContactPage() {
     <>
       <JsonLd schemas={[breadcrumbSchema(trail)]} />
 
-      <section className="relative overflow-hidden pb-24 pt-12">
-        <Blobs />
-        <Container className="relative">
-          <Breadcrumbs trail={trail} />
-
-          <div className="grid gap-14 lg:grid-cols-[1fr_1.05fr]">
+      {/* The form is the conversion, so it opens the page rather than sitting
+          below a hero image. Dark ground keeps it consistent with every other
+          page opening. */}
+      <Section tone="dark" className="grain pb-24 pt-40 sm:pb-32 sm:pt-48">
+        <Container>
+          <div className="grid gap-16 lg:grid-cols-[1fr_1.05fr] lg:gap-24">
             <div>
               <Reveal>
-                <Eyebrow>Get started</Eyebrow>
-                <h1 className="mt-6 text-[2.3rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink-900 sm:text-5xl">
-                  Tell us about the business
+                <Label tone="light">Get started</Label>
+                <h1 className="display mt-8 text-white">
+                  Tell us about
+                  {" "}
+            <br className="hidden sm:inline" />
+                  the business
                 </h1>
-                <p className="mt-6 text-lg leading-relaxed text-ink-500">
-                  Three quick questions so we know which programs are actually
-                  worth putting in front of you. It takes about a minute.
+                <span className="mt-10 block h-0.5 w-28 bg-accent" aria-hidden="true" />
+                <p className="mt-10 max-w-lg text-lg leading-relaxed text-mist">
+                  Three quick questions so we know which programs are actually worth
+                  putting in front of you. It takes about a minute.
                 </p>
               </Reveal>
 
-              <div className="mt-10 space-y-4">
+              <ul className="mt-14 border-t hairline-dark">
                 {ASSURANCES.map((item, index) => (
-                  <Reveal key={item.title} delay={index * 0.07}>
-                    <div className="flex gap-4 rounded-2xl border border-ink-100 bg-white p-5">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
-                        <item.icon className="h-4.5 w-4.5" />
-                      </span>
-                      <span>
-                        <span className="block font-semibold text-ink-900">
-                          {item.title}
+                  <li key={item.title} className="border-b hairline-dark">
+                    <Reveal delay={index * 0.07}>
+                      <div className="flex gap-6 py-7">
+                        <item.icon className="mt-1 h-5 w-5 shrink-0 text-accent" />
+                        <span>
+                          <span className="block font-display text-lg font-bold tracking-[-0.03em] text-white">
+                            {item.title}
+                          </span>
+                          <span className="mt-2 block leading-relaxed text-steel">
+                            {item.body}
+                          </span>
                         </span>
-                        <span className="mt-1 block text-sm leading-relaxed text-ink-500">
-                          {item.body}
-                        </span>
-                      </span>
-                    </div>
-                  </Reveal>
+                      </div>
+                    </Reveal>
+                  </li>
                 ))}
-              </div>
+              </ul>
 
               <Reveal delay={0.25}>
-                <div className="mt-10 rounded-2xl border border-ink-100 bg-white p-6">
-                  <p className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-ink-400">
-                    GCS Funding, LLC
-                  </p>
-                  <address className="mt-3 space-y-2 text-[0.95rem] not-italic text-ink-600">
-                    <span className="flex items-start gap-3">
-                      <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" />
-                      <span>
-                        {site.address.street}
-                        <br />
-                        {site.address.city}, {site.address.state}{" "}
-                        {site.address.zip}
-                      </span>
+                <address className="mt-12 space-y-4 not-italic text-mist">
+                  <span className="flex items-start gap-4">
+                    <MapPin className="mt-1 h-4 w-4 shrink-0 text-accent" />
+                    <span className="leading-relaxed">
+                      {site.legalName}
+                      {" "}
+            <br className="hidden sm:inline" />
+                      {site.address.street}
+                      {" "}
+            <br className="hidden sm:inline" />
+                      {site.address.city}, {site.address.state} {site.address.zip}
                     </span>
-                    <a
-                      href={`mailto:${site.email}`}
-                      className="flex items-center gap-3 hover:text-ink-900"
-                    >
-                      <Mail className="h-4 w-4 shrink-0 text-brand-600" />
-                      {site.email}
-                    </a>
-                  </address>
-                </div>
+                  </span>
+                  <a
+                    href={`mailto:${site.email}`}
+                    className="flex items-center gap-4 transition-colors hover:text-accent"
+                  >
+                    <Mail className="h-4 w-4 shrink-0 text-accent" />
+                    {site.email}
+                  </a>
+                </address>
               </Reveal>
             </div>
 
             <Reveal direction="right">
-              <div className="rounded-[2rem] border border-ink-100 bg-white p-7 shadow-[0_24px_60px_-40px_rgb(11_18_32/0.4)] sm:p-9">
+              <div className="bg-paper p-7 sm:p-10">
                 <LeadForm />
               </div>
             </Reveal>
           </div>
         </Container>
-      </section>
+      </Section>
     </>
   );
 }

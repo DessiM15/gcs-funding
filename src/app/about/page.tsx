@@ -1,20 +1,22 @@
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-import { CountUp } from "@/components/motion/count-up";
+import { Magnetic } from "@/components/atmosphere";
 import { Reveal } from "@/components/motion/reveal";
 import {
-  Blobs,
-  Breadcrumbs,
   CtaSection,
-  StatsBand,
+  NumberedList,
+  PageHero,
+  SplitFeature,
+  StatBand,
 } from "@/components/sections/shared";
 import {
   ButtonLink,
   Container,
-  Eyebrow,
   Heading,
+  Label,
   Section,
 } from "@/components/ui/primitives";
+import { photos } from "@/lib/photos";
 import { JsonLd, breadcrumbSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
@@ -55,155 +57,126 @@ export default function AboutPage() {
     <>
       <JsonLd schemas={[breadcrumbSchema(trail)]} />
 
-      <section className="relative overflow-hidden pb-14 pt-12">
-        <Blobs />
-        <Container className="relative">
-          <Breadcrumbs trail={trail} />
+      <PageHero
+        priority
+        tall
+        trail={trail}
+        label={`Since ${site.founded}`}
+        title={
+          <>
+            Twenty years of getting deals
+            {" "}
+            <br className="hidden sm:inline" />
+            funded when the bank <span className="text-accent">said no</span>
+          </>
+        }
+        intro="GCS Funding was created in 2003 and has grown alongside a business funding industry that has changed almost beyond recognition. We started when receipts came off carbon paper. We now place touchless payment technology and instant point-of-sale approvals for merchants across the country."
+        photo={photos.houstonTower}
+      />
 
-          <div className="max-w-3xl">
-            <Reveal>
-              <Eyebrow>Since 2003</Eyebrow>
-              <h1 className="mt-6 text-[2.3rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink-900 sm:text-5xl md:text-[3.4rem]">
-                Twenty years of getting deals funded when the bank
-                <span className="text-gradient"> said no</span>
-              </h1>
-              <p className="mt-7 text-lg leading-relaxed text-ink-500 sm:text-xl">
-                GCS Funding was created in 2003 and has grown alongside a business
-                funding industry that has changed almost beyond recognition. We
-                started when receipts came off carbon paper. We are now placing
-                touchless payment technology and instant point-of-sale approvals
-                for merchants across the country.
-              </p>
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.12} className="mt-14">
-            <StatsBand />
-          </Reveal>
-        </Container>
-      </section>
-
-      <Section className="bg-white">
+      <Section tone="dark" className="py-0 sm:py-0" id="proof" rail="Proof">
         <Container>
-          <div className="grid gap-14 lg:grid-cols-[1.1fr_1fr]">
-            <Reveal direction="left">
-              <Heading
-                eyebrow="The company"
-                title="A national direct funding source, run out of Cypress, Texas"
-                align="left"
-              />
-              <div className="mt-7 space-y-5 text-lg leading-relaxed text-ink-500">
-                <p>
-                  GCS Funding is a national direct funding solution entering our{" "}
-                  {site.stats.yearsInBusiness}th year of helping businesses get
-                  their buyers approved. We hold relationships with more than{" "}
-                  {site.stats.lenders} national lenders spanning every credit
-                  criteria, which means we have a solution for buyers with perfect
-                  credit, first-time buyers with little or no credit history, and
-                  buyers who have had real problems in the past.
-                </p>
-                <p>
-                  On the payments side, more than{" "}
-                  {site.stats.merchants.toLocaleString()} merchants have trusted
-                  their daily business to GCS. We have watched the industry move
-                  from carbon copy receipts to contactless processing, and our job
-                  has stayed the same throughout: keep our merchants in front of
-                  the curve on both technology and regulation.
-                </p>
-                <p>
-                  Our road to success for small and mid-sized businesses is to
-                  provide the leading technology and compliance so those businesses
-                  can keep growing. It is why customers trust us to provide the
-                  financial technology to make money, move money, manage employees,
-                  and engage their customers.
-                </p>
-              </div>
+          <StatBand />
+        </Container>
+      </Section>
+
+      <Section tone="light" id="company" rail="Company">
+        <Container>
+          <div className="grid gap-14 lg:grid-cols-[30rem_1fr] lg:gap-24">
+            <Heading
+              label="The company"
+              title="A national direct funding source, run out of Cypress, Texas"
+              className="lg:sticky lg:top-32 lg:self-start"
+            />
+
+            <div>
+              <Reveal>
+                <div className="space-y-7 text-lg leading-relaxed text-ink-soft">
+                  <p>
+                    GCS Funding is a national direct funding solution entering our{" "}
+                    {site.stats.yearsInBusiness}th year of helping businesses get
+                    their buyers approved. We hold relationships with more than{" "}
+                    {site.stats.lenders} national lenders spanning every credit
+                    criteria, which means we have a solution for buyers with perfect
+                    credit, first-time buyers with little or no credit history, and
+                    buyers who have had real problems in the past.
+                  </p>
+                  <p>
+                    On the payments side, more than{" "}
+                    {site.stats.merchants.toLocaleString()} merchants have trusted
+                    their daily business to GCS. We have watched the industry move
+                    from carbon copy receipts to contactless processing, and our job
+                    has stayed the same throughout: keep our merchants in front of the
+                    curve on both technology and regulation.
+                  </p>
+                  <p>
+                    Our road to success for small and mid-sized businesses is to
+                    provide the leading technology and compliance so those businesses
+                    can keep growing. It is why customers trust us to provide the
+                    financial technology to make money, move money, manage employees,
+                    and engage their customers.
+                  </p>
+                </div>
+              </Reveal>
 
               {/*
                 NEEDS_SCOTT: replace with Scott's real bio, headshot, credentials,
                 and a specific track record figure. A named, photographed expert is
                 the single strongest E-E-A-T signal available on a lending site.
               */}
-              <div className="mt-10 rounded-3xl border border-dashed border-brand-300 bg-brand-50/60 p-7">
-                <p className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand-700">
-                  Reserved for Scott
-                </p>
-                <p className="mt-3 leading-relaxed text-ink-600">
-                  This block is built to hold Scott Reed&apos;s photo, bio, years in
-                  the industry, and a concrete track record. Google treats lending
-                  as a &ldquo;Your Money or Your Life&rdquo; topic and weighs
-                  demonstrated expertise heavily, so a named broker with a face and
-                  a history outranks an anonymous company page. It is ready the
-                  moment we have the details.
-                </p>
-              </div>
-            </Reveal>
-
-            <Reveal direction="right">
-              <div className="rounded-3xl border border-ink-100 bg-canvas p-8">
-                <p className="font-display text-5xl font-extrabold tracking-tight text-ink-900">
-                  <CountUp to={site.stats.yearsInBusiness} suffix=" years" />
-                </p>
-                <p className="mt-2 text-ink-500">
-                  in business funding and payments, without changing who we serve:
-                  small and mid-sized businesses.
-                </p>
-
-                <ul className="mt-8 space-y-3.5 border-t border-ink-100 pt-8">
-                  {[
-                    "Founded in 2003 in Cypress, Texas",
-                    `${site.stats.lenders}+ national lenders, all credit tiers`,
-                    `${site.stats.merchants.toLocaleString()}+ merchants processing`,
-                    "Consumer approvals from 500 to 800 FICO",
-                    "Lines of credit to $300,000",
-                    "PCI-DSS compliant payment hardware",
-                  ].map((item) => (
-                    <li key={item} className="flex items-start gap-3">
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                        <Check className="h-3 w-3" />
-                      </span>
-                      <span className="text-[0.95rem] font-medium text-ink-700">
-                        {item}
-                      </span>
-                    </li>
-                  ))}
-                </ul>
-
-                <ButtonLink
-                  href="/contact"
-                  variant="brand"
-                  size="lg"
-                  className="mt-8 w-full"
-                >
-                  Start a conversation <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
-              </div>
-            </Reveal>
+              <Reveal delay={0.1}>
+                <div className="mt-14 border-l-2 border-accent bg-paper p-8 sm:p-10">
+                  <p className="label text-accent-ink">Reserved for Scott</p>
+                  <p className="mt-5 leading-relaxed text-ink-soft">
+                    This block is built to hold Scott Reed&apos;s photograph, bio,
+                    years in the industry, and a concrete track record. Google treats
+                    lending as a &ldquo;Your Money or Your Life&rdquo; topic and weighs
+                    demonstrated expertise heavily, so a named broker with a face and a
+                    history outranks an anonymous company page. It is ready the moment
+                    we have the details.
+                  </p>
+                </div>
+              </Reveal>
+            </div>
           </div>
         </Container>
       </Section>
 
-      <Section>
+      <Section tone="paper" id="how-we-work" rail="How we work">
         <Container>
-          <Heading
-            eyebrow="How we work"
-            title="Four things we believe about"
-            accent="getting a deal done"
+          <SplitFeature
+            flip
+            label="What we believe"
+            title="Four things we believe about getting a deal done"
+            photo={photos.truckNight}
+            body={
+              <p>
+                Twenty years of placing files teaches you which parts of this business
+                are negotiable and which are not. These four are not.
+              </p>
+            }
           />
-          <div className="mt-14 grid gap-5 md:grid-cols-2">
-            {PRINCIPLES.map((principle, index) => (
-              <Reveal key={principle.title} delay={index * 0.06}>
-                <div className="h-full rounded-3xl border border-ink-100 bg-white p-7">
-                  <h3 className="text-lg font-bold text-ink-900">
-                    {principle.title}
-                  </h3>
-                  <p className="mt-3 leading-relaxed text-ink-500">
-                    {principle.body}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-20">
+            <NumberedList items={PRINCIPLES} />
           </div>
+        </Container>
+      </Section>
+
+      <Section tone="light" id="start" rail="Start">
+        <Container>
+          <Reveal>
+            <Label>Get in touch</Label>
+            <h2 className="display-sm mt-7 max-w-3xl text-ink">
+              If a bank has already told you no, that is usually where we start
+            </h2>
+            <div className="mt-10">
+              <Magnetic>
+                <ButtonLink href="/contact" variant="solid" size="lg">
+                  Start a conversation <ArrowRight className="h-4 w-4" />
+                </ButtonLink>
+              </Magnetic>
+            </div>
+          </Reveal>
         </Container>
       </Section>
 

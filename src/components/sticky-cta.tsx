@@ -26,11 +26,11 @@ export function StickyCta() {
   return (
     <div
       data-visible={visible || undefined}
-      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 translate-y-full border-t border-ink-100 bg-canvas/90 p-4 backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] data-visible:pointer-events-auto data-visible:translate-y-0 lg:hidden"
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 translate-y-full border-t border-white/10 bg-void/90 p-4 backdrop-blur-xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] data-visible:pointer-events-auto data-visible:translate-y-0 lg:hidden"
     >
       <Link
         href="/contact"
-        className={buttonClass({ variant: "brand", size: "lg", className: "w-full" })}
+        className={buttonClass({ variant: "accent", size: "lg", className: "w-full" })}
       >
         Get Started <ArrowRight className="h-4 w-4" />
       </Link>

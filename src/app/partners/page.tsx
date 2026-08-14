@@ -1,29 +1,23 @@
-import Link from "next/link";
-import { ArrowRight, Building2 } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-import { Reveal } from "@/components/motion/reveal";
+import { Magnetic } from "@/components/atmosphere";
 import {
-  Blobs,
-  Breadcrumbs,
   CtaSection,
   FaqSection,
   HighlightRow,
+  LinkList,
+  NumberedList,
+  PageHero,
 } from "@/components/sections/shared";
 import {
   ButtonLink,
-  Card,
   Container,
-  Eyebrow,
   Heading,
   Section,
 } from "@/components/ui/primitives";
 import { industries } from "@/lib/industries";
-import {
-  JsonLd,
-  breadcrumbSchema,
-  faqSchema,
-  serviceSchema,
-} from "@/lib/schema";
+import { photos } from "@/lib/photos";
+import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site";
 
@@ -96,7 +90,7 @@ export default function PartnersPage() {
           serviceSchema({
             name: "Customer financing partner program",
             description:
-              "Point-of-sale consumer financing program for contractors, medical practices, retailers, and service businesses across the Houston area.",
+              "Point-of-sale consumer financing for contractors, medical practices, retailers, and service businesses across the Houston area.",
             url: `${SITE_URL}/partners`,
           }),
           faqSchema(FAQS),
@@ -104,103 +98,69 @@ export default function PartnersPage() {
         ]}
       />
 
-      <section className="relative overflow-hidden pb-14 pt-12">
-        <Blobs />
-        <Container className="relative">
-          <Breadcrumbs trail={trail} />
+      <PageHero
+        priority
+        tall
+        trail={trail}
+        label="Partner program"
+        title={
+          <>
+            Become the business that
+            {" "}
+            <br className="hidden sm:inline" />
+            <span className="text-accent">offers financing</span>
+          </>
+        }
+        intro="Your competitors are quoting the same total you are. The difference is whether the customer hears a number they cannot pay today, or a monthly payment they can."
+        photo={photos.poolDusk}
+        actions={
+          <>
+            <Magnetic>
+              <ButtonLink href="/contact" variant="accent" size="lg">
+                Become a partner <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
+            </Magnetic>
+            <ButtonLink href="/services/consumer-financing" variant="outlineLight" size="lg">
+              Full program details
+            </ButtonLink>
+          </>
+        }
+      />
 
-          <div className="max-w-3xl">
-            <Reveal>
-              <Eyebrow>Partner program</Eyebrow>
-              <h1 className="mt-6 text-[2.4rem] font-extrabold leading-[1.06] tracking-[-0.03em] text-ink-900 sm:text-5xl md:text-[3.6rem]">
-                Become the business that
-                <span className="text-gradient"> offers financing</span>
-              </h1>
-              <p className="mt-7 text-lg leading-relaxed text-ink-500 sm:text-xl">
-                Your competitors are quoting the same total you are. The
-                difference is whether the customer hears a number they cannot pay
-                today, or a monthly payment they can. GCS Funding gives you the
-                second conversation, at no cost to add and with nothing to
-                install.
-              </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/contact" variant="brand" size="lg">
-                  Become a partner <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
-                <ButtonLink
-                  href="/services/consumer-financing"
-                  variant="outline"
-                  size="lg"
-                >
-                  Full program details
-                </ButtonLink>
-              </div>
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.12} className="mt-14">
-            <HighlightRow highlights={HIGHLIGHTS} />
-          </Reveal>
+      <Section tone="dark" className="py-0 sm:py-0" id="figures" rail="Figures">
+        <Container>
+          <HighlightRow highlights={HIGHLIGHTS} />
         </Container>
-      </section>
+      </Section>
 
-      <Section className="bg-white">
+      <Section tone="light" id="how-it-works" rail="How it works">
         <Container>
           <Heading
-            eyebrow="How partnering works"
-            title="Four steps, and none of them"
-            accent="cost you anything up front"
+            label="How partnering works"
+            title="Four steps, and none of them cost you anything up front"
           />
-
-          <div className="mt-14 grid gap-5 sm:grid-cols-2">
-            {STEPS.map((step, index) => (
-              <Reveal key={step.title} delay={index * 0.06}>
-                <Card className="h-full">
-                  <span className="font-display text-4xl font-extrabold text-brand-200">
-                    0{index + 1}
-                  </span>
-                  <h3 className="mt-3 text-lg font-bold text-ink-900">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2.5 leading-relaxed text-ink-500">
-                    {step.body}
-                  </p>
-                </Card>
-              </Reveal>
-            ))}
+          <div className="mt-16">
+            <NumberedList items={STEPS} />
           </div>
         </Container>
       </Section>
 
-      <Section>
+      <Section tone="paper" id="industries" rail="Industries">
         <Container>
-          <Heading
-            eyebrow="Industries"
-            title="Programs written for"
-            accent="your industry, not a template"
-            subtitle="Each of these pages covers the specific objection, ticket size, and approval profile that industry actually deals with."
-          />
-
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {industries.map((industry, index) => (
-              <Reveal key={industry.slug} delay={index * 0.04}>
-                <Link href={`/partners/${industry.slug}`} className="block h-full">
-                  <Card className="h-full">
-                    <Building2 className="h-5 w-5 text-azure-500" />
-                    <h3 className="mt-4 text-base font-bold text-ink-900">
-                      {industry.name}
-                    </h3>
-                    <p className="mt-1.5 text-sm text-ink-400">
-                      Typical ticket {industry.typicalTicket}
-                    </p>
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
-                      View program
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                    </span>
-                  </Card>
-                </Link>
-              </Reveal>
-            ))}
+          <div className="grid gap-14 lg:grid-cols-[30rem_1fr] lg:gap-24">
+            <Heading
+              label="Industries"
+              title="Programs written for your industry, not a template"
+              intro="Each page covers the specific objection, ticket size, and approval profile that industry actually deals with."
+              className="lg:sticky lg:top-32 lg:self-start"
+            />
+            <LinkList
+              items={industries.map((industry) => ({
+                href: `/partners/${industry.slug}`,
+                title: industry.name,
+                meta: industry.typicalTicket,
+              }))}
+            />
           </div>
         </Container>
       </Section>

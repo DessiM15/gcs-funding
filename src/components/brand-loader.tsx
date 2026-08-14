@@ -60,15 +60,13 @@ export function BrandLoader() {
     <div
       aria-hidden="true"
       data-leaving={leaving || undefined}
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-canvas transition-[opacity,transform] duration-[420ms] ease-[cubic-bezier(0.16,1,0.3,1)] data-leaving:pointer-events-none data-leaving:opacity-0"
+      className="grain fixed inset-0 z-[100] flex items-center justify-center bg-void transition-opacity duration-[420ms] ease-[cubic-bezier(0.16,1,0.3,1)] data-leaving:pointer-events-none data-leaving:opacity-0"
     >
-      <div className="blob -top-24 left-1/2 h-72 w-72 -translate-x-1/2 bg-brand-300/40" />
-      <div className="blob bottom-0 left-1/3 h-72 w-72 bg-azure-300/40" />
-
-      <div className="relative flex flex-col items-center gap-5">
-        <BrandMark animated className="h-20 w-20" />
-        <span className="text-[0.7rem] font-semibold uppercase tracking-[0.32em] text-ink-400 intro-fade">
-          GCS Funding
+      <div className="relative flex flex-col items-center">
+        <BrandMark animated className="h-16 w-16" />
+        <span className="intro-rule mt-7 block h-px w-40 bg-accent" />
+        <span className="intro-fade mt-5 text-[0.6rem] font-semibold uppercase tracking-[0.32em] text-steel">
+          Securing Funding Options
         </span>
       </div>
     </div>

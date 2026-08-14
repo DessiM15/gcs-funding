@@ -1,12 +1,8 @@
 import { SurchargeCalculator } from "@/components/calculators";
 import { Reveal } from "@/components/motion/reveal";
-import {
-  Blobs,
-  Breadcrumbs,
-  CtaSection,
-  FaqSection,
-} from "@/components/sections/shared";
-import { Container, Eyebrow } from "@/components/ui/primitives";
+import { CtaSection, FaqSection, PageHero } from "@/components/sections/shared";
+import { Container, Section } from "@/components/ui/primitives";
+import { photos } from "@/lib/photos";
 import { JsonLd, breadcrumbSchema, faqSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 
@@ -46,31 +42,20 @@ export default function SurchargeCalculatorPage() {
     <>
       <JsonLd schemas={[faqSchema(FAQS), breadcrumbSchema(trail)]} />
 
-      <section className="relative overflow-hidden pb-16 pt-12">
-        <Blobs />
-        <Container className="relative">
-          <Breadcrumbs trail={trail} />
+      <PageHero
+        priority
+        trail={trail}
+        label="Free tool"
+        title="What are card fees actually costing you?"
+        intro="Most merchants know their quoted rate and have never worked out their effective one. Move the sliders to see what processing takes out of the business each year, and what a compliant surcharge program would put back."
+        photo={photos.cardReader}
+      />
 
-          <div className="max-w-3xl">
-            <Reveal>
-              <Eyebrow>Free tool</Eyebrow>
-              <h1 className="mt-6 text-[2.2rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink-900 sm:text-5xl">
-                What are card fees actually costing you?
-              </h1>
-              <p className="mt-6 text-lg leading-relaxed text-ink-500">
-                Most merchants know their quoted rate and have never worked out
-                their effective one. Move the sliders to see what processing takes
-                out of the business each year, and what a compliant surcharge
-                program would put back.
-              </p>
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.12} className="mt-14">
-            <SurchargeCalculator />
-          </Reveal>
+      <Section tone="light" id="calculator" rail="Calculator">
+        <Container>
+          <Reveal><SurchargeCalculator /></Reveal>
         </Container>
-      </section>
+      </Section>
 
       <FaqSection faqs={FAQS} title="How to read the numbers" />
       <CtaSection

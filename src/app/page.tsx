@@ -1,25 +1,26 @@
-import Link from "next/link";
-import { ArrowRight, Building2, CreditCard, Landmark, Zap } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
-import { CountUp } from "@/components/motion/count-up";
-import { Reveal } from "@/components/motion/reveal";
+import { Magnetic } from "@/components/atmosphere";
 import {
-  Blobs,
   CtaSection,
   FaqSection,
-  StatsBand,
+  LinkList,
+  NumberedList,
+  PageHero,
+  SplitFeature,
+  StatBand,
 } from "@/components/sections/shared";
 import {
   ButtonLink,
-  Card,
   Container,
-  Eyebrow,
   Heading,
   Section,
 } from "@/components/ui/primitives";
 import { industries } from "@/lib/industries";
+import { photos } from "@/lib/photos";
 import { JsonLd, breadcrumbSchema, faqSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
+import { services } from "@/lib/services";
 import { site } from "@/lib/site";
 
 export const metadata = buildMetadata({
@@ -48,37 +49,13 @@ const HOME_FAQS = [
   },
 ];
 
-const OFFERS = [
-  {
-    icon: Zap,
-    title: "Customer financing",
-    body: "Let your customers pay over time while you are paid in full within 24 hours. One application, 20+ lenders, approvals in seconds.",
-    href: "/partners",
-    cta: "Partner with us",
-  },
-  {
-    icon: CreditCard,
-    title: "Card processing & surcharge",
-    body: "A compliant surcharge program that moves processing cost to the cardholder, so you keep 100% of your published prices. High-risk welcome.",
-    href: "/services/credit-card-processing",
-    cta: "See the program",
-  },
-  {
-    icon: Landmark,
-    title: "Capital for your business",
-    body: "Revolving lines of credit up to $300,000 with approvals in as fast as 20 minutes, plus equipment and commercial truck financing.",
-    href: "/services/business-line-of-credit",
-    cta: "Explore funding",
-  },
-];
-
 const STEPS = [
   {
     title: "One application",
     body: "Your customer applies on any device, in under a minute, without paper and without leaving your business.",
   },
   {
-    title: "Live offers in seconds",
+    title: "Live offers in ten seconds",
     body: "A soft credit pull returns real offers from our lender network in about ten seconds, with no effect on their score.",
   },
   {
@@ -95,222 +72,171 @@ export default function HomePage() {
   return (
     <>
       <JsonLd
-        schemas={[
-          faqSchema(HOME_FAQS),
-          breadcrumbSchema([{ name: "Home", path: "/" }]),
-        ]}
+        schemas={[faqSchema(HOME_FAQS), breadcrumbSchema([{ name: "Home", path: "/" }])]}
       />
 
-      {/* ---------------------------------------------------------------- Hero */}
-      <section className="relative overflow-hidden pb-16 pt-14 sm:pt-20">
-        <Blobs />
-        <div
-          aria-hidden="true"
-          className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_top,black,transparent_65%)]"
-        />
+      <PageHero
+        tall
+        priority
+        label={`Houston, Texas · Since ${site.founded}`}
+        photo={photos.houstonNight}
+        title={
+          <>
+            Let your customers
+            {" "}
+            <br className="hidden sm:inline" />
+            say yes. <span className="text-accent">Every time.</span>
+          </>
+        }
+        intro={`Offer instant financing at the point of sale. One application reaches ${site.stats.lenders}+ lenders, approvals come back in about ten seconds, and your business is paid in full within 24 hours.`}
+        actions={
+          <>
+            <Magnetic>
+              <ButtonLink href="/contact" variant="accent" size="lg">
+                Become a partner <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
+            </Magnetic>
+            <ButtonLink href="/partners" variant="outlineLight" size="lg">
+              See how it works
+            </ButtonLink>
+            <span className="label mt-2 text-steel sm:ml-4 sm:mt-0">
+              No setup fees · Nothing to install
+            </span>
+          </>
+        }
+      />
 
-        <Container className="relative">
-          <div className="mx-auto max-w-3xl text-center">
-            <Reveal>
-              <Eyebrow>Houston&apos;s funding broker since 2003</Eyebrow>
-            </Reveal>
-
-            <Reveal delay={0.06}>
-              <h1 className="mt-7 text-[2.6rem] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink-900 sm:text-6xl md:text-[4.1rem]">
-                Let your customers
-                <br />
-                <span className="text-gradient">say yes.</span> Every time.
-              </h1>
-            </Reveal>
-
-            <Reveal delay={0.12}>
-              <p className="mx-auto mt-7 max-w-xl text-lg leading-relaxed text-ink-500 sm:text-xl">
-                Offer instant financing at the point of sale. One application
-                reaches {site.stats.lenders}+ lenders, approvals come back in
-                about ten seconds, and your business is paid in full within 24
-                hours.
-              </p>
-            </Reveal>
-
-            <Reveal delay={0.18}>
-              <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-                <ButtonLink href="/contact" variant="brand" size="lg">
-                  Become a partner <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
-                <ButtonLink href="/partners" variant="outline" size="lg">
-                  See how it works
-                </ButtonLink>
-              </div>
-            </Reveal>
-
-            <Reveal delay={0.24}>
-              <p className="mt-6 text-sm text-ink-400">
-                No setup fees &middot; No monthly fees &middot; Nothing to install
-              </p>
-            </Reveal>
-          </div>
-
-          <Reveal delay={0.3} className="mt-16">
-            <StatsBand />
-          </Reveal>
-        </Container>
-      </section>
-
-      {/* ------------------------------------------------------------- Offers */}
-      <Section>
+      {/* ------------------------------------------------------------ Proof */}
+      <Section tone="dark" id="proof" rail="Proof" className="py-0 sm:py-0">
         <Container>
-          <Heading
-            eyebrow="What we do"
-            title="Three ways GCS Funding"
-            accent="moves money for you"
-            subtitle="A lending and payments brokerage built around the two problems every business owner actually has: customers who cannot pay all at once, and costs that quietly eat the margin."
-          />
+          <StatBand />
+        </Container>
+      </Section>
 
-          <div className="mt-14 grid gap-5 lg:grid-cols-3">
-            {OFFERS.map((offer, index) => (
-              <Reveal key={offer.title} delay={index * 0.08}>
-                <Card className="flex h-full flex-col">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-azure-500 text-white shadow-[0_10px_24px_-12px_rgb(27_150_216/0.9)]">
-                    <offer.icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="mt-5 text-xl font-bold text-ink-900">
-                    {offer.title}
-                  </h3>
-                  <p className="mt-3 flex-1 leading-relaxed text-ink-500">
-                    {offer.body}
-                  </p>
-                  <Link
-                    href={offer.href}
-                    className="mt-6 inline-flex items-center gap-1.5 text-[0.925rem] font-semibold text-brand-700 transition-colors hover:text-brand-800"
-                  >
-                    {offer.cta}
-                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Link>
-                </Card>
-              </Reveal>
-            ))}
+      {/* ----------------------------------------------------------- Offers */}
+      <Section tone="light" id="what-we-do" rail="What we do">
+        <Container>
+          <div className="grid gap-14 lg:grid-cols-[30rem_1fr] lg:gap-24">
+            <Heading
+              label="What we do"
+              title="Three ways we move money for you"
+              intro="A lending and payments brokerage built around the two problems every business owner actually has: customers who cannot pay all at once, and costs that quietly eat the margin."
+              className="lg:sticky lg:top-32 lg:self-start"
+            />
+
+            <div>
+              <LinkList
+                items={services.map((service) => ({
+                  href: `/services/${service.slug}`,
+                  title: service.nav,
+                  meta: service.eyebrow,
+                }))}
+              />
+            </div>
           </div>
         </Container>
       </Section>
 
-      {/* --------------------------------------------------------- How it works */}
-      <Section className="bg-white">
+      {/* ---------------------------------------------------------- Partner */}
+      <Section tone="paper" id="partner" rail="Partner">
+        <Container>
+          <SplitFeature
+            label="Partner program"
+            title="The estimate is not the problem. The total is."
+            photo={photos.poolDusk}
+            body={
+              <>
+                <p>
+                  A homeowner wants the spa, the tanning ledge, and the water
+                  feature. Then the number lands, and the build shrinks to the base
+                  package, or dies in the driveway entirely.
+                </p>
+                <p>
+                  Present a monthly payment alongside the total and the conversation
+                  changes. Buyers stop evaluating a lump sum and start evaluating a
+                  payment, which is the only number most of them were weighing in the
+                  first place. The upgrades survive. So does your margin.
+                </p>
+              </>
+            }
+          >
+            <div className="mt-10">
+              <ButtonLink href="/partners" variant="outline" size="md">
+                Explore the partner program <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
+            </div>
+          </SplitFeature>
+        </Container>
+      </Section>
+
+      {/* ----------------------------------------------------- How it works */}
+      <Section tone="dark" id="how-it-works" rail="How it works">
         <Container>
           <Heading
-            eyebrow="How it works"
-            title="From estimate to"
-            accent="approved, in about a minute"
+            tone="light"
+            label="How it works"
+            title="From estimate to approved, in about a minute"
           />
-
-          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {STEPS.map((step, index) => (
-              <Reveal key={step.title} delay={index * 0.07}>
-                <div className="relative h-full rounded-3xl border border-ink-100 bg-canvas p-7">
-                  <span className="font-display text-4xl font-extrabold text-brand-200">
-                    0{index + 1}
-                  </span>
-                  <h3 className="mt-3 text-lg font-bold text-ink-900">
-                    {step.title}
-                  </h3>
-                  <p className="mt-2.5 text-[0.95rem] leading-relaxed text-ink-500">
-                    {step.body}
-                  </p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-16">
+            <NumberedList items={STEPS} tone="light" />
           </div>
         </Container>
       </Section>
 
-      {/* --------------------------------------------------------- Industries */}
-      <Section>
+      {/* -------------------------------------------------------- Industries */}
+      <Section tone="light" id="industries" rail="Industries">
         <Container>
-          <Heading
-            eyebrow="Partner program"
-            title="Built for the businesses where"
-            accent="price is the only objection left"
-            subtitle="Every industry below sells a high-ticket, mostly discretionary purchase. That is exactly where a monthly payment turns a maybe into a signature."
-          />
+          <div className="grid gap-14 lg:grid-cols-[30rem_1fr] lg:gap-24">
+            <Heading
+              label="Industries"
+              title="Built for the businesses where price is the last objection"
+              intro="Every industry below sells a high-ticket, largely discretionary purchase. That is exactly where a monthly payment turns a maybe into a signature."
+              className="lg:sticky lg:top-32 lg:self-start"
+            />
 
-          <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {industries.map((industry, index) => (
-              <Reveal key={industry.slug} delay={index * 0.04}>
-                <Link href={`/partners/${industry.slug}`} className="block h-full">
-                  <Card className="h-full">
-                    <Building2 className="h-5 w-5 text-azure-500" />
-                    <h3 className="mt-4 text-base font-bold text-ink-900">
-                      {industry.name}
-                    </h3>
-                    <p className="mt-1.5 text-sm text-ink-400">
-                      Typical ticket {industry.typicalTicket}
-                    </p>
-                    <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-700">
-                      View program
-                      <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
-                    </span>
-                  </Card>
-                </Link>
-              </Reveal>
-            ))}
+            <LinkList
+              items={industries.map((industry) => ({
+                href: `/partners/${industry.slug}`,
+                title: industry.name,
+                meta: industry.typicalTicket,
+              }))}
+            />
           </div>
         </Container>
       </Section>
 
-      {/* ---------------------------------------------------------- Authority */}
-      <Section className="bg-white">
+      {/* --------------------------------------------------------- Authority */}
+      <Section tone="paper" id="about" rail="About">
         <Container>
-          <div className="grid items-center gap-14 lg:grid-cols-2">
-            <Reveal direction="left">
-              <Eyebrow>Why GCS Funding</Eyebrow>
-              <h2 className="mt-5 text-3xl font-bold leading-[1.12] text-ink-900 sm:text-4xl md:text-[2.75rem]">
-                Twenty years of getting deals funded when the bank said no
-              </h2>
-              <p className="mt-6 text-lg leading-relaxed text-ink-500">
-                GCS Funding was created in 2003, back when receipts still came off
-                carbon paper. We have watched the payment industry change from
-                imprinters to touchless processing, and more than 5,000 merchants
-                have trusted us with their daily business along the way.
-              </p>
-              <p className="mt-4 leading-relaxed text-ink-500">
-                A broker is only worth what their lender network is worth. Ours
-                covers every credit tier, from perfect credit to first-time buyers
-                with no history to owners who have been through a bankruptcy. That
-                is why we can say yes on files that get one answer at a bank.
-              </p>
-              <div className="mt-9">
-                <ButtonLink href="/about" variant="outline" size="md">
-                  More about GCS Funding <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
-              </div>
-            </Reveal>
-
-            <Reveal direction="right">
-              <div className="grid gap-4 sm:grid-cols-2">
-                {[
-                  { value: site.stats.merchants, suffix: "+", label: "Merchants processing with GCS" },
-                  { value: site.stats.lenders, suffix: "+", label: "National lenders, every credit tier" },
-                  { value: 500, prefix: "", label: "Approvals down to a 500 FICO" },
-                  { value: site.stats.maxConsumerLoan, prefix: "$", label: "Maximum consumer approval" },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-3xl border border-ink-100 bg-canvas p-7"
-                  >
-                    <p className="font-display text-3xl font-extrabold tracking-tight text-ink-900">
-                      <CountUp
-                        to={stat.value}
-                        prefix={stat.prefix ?? ""}
-                        suffix={stat.suffix ?? ""}
-                      />
-                    </p>
-                    <p className="mt-2 text-sm leading-snug text-ink-400">
-                      {stat.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </Reveal>
-          </div>
+          <SplitFeature
+            flip
+            label={`Since ${site.founded}`}
+            title="Twenty years of getting deals funded when the bank said no"
+            photo={photos.houstonTower}
+            body={
+              <>
+                <p>
+                  GCS Funding was created in 2003, back when receipts still came off
+                  carbon paper. We have watched the payment industry move from
+                  imprinters to touchless processing, and more than{" "}
+                  {site.stats.merchants.toLocaleString()} merchants have trusted us
+                  with their daily business along the way.
+                </p>
+                <p>
+                  A broker is only worth what their lender network is worth. Ours
+                  covers every credit tier, from perfect credit to first-time buyers
+                  with no history to owners who have been through a bankruptcy. That
+                  is why we can say yes on files that get one answer at a bank.
+                </p>
+              </>
+            }
+          >
+            <div className="mt-10">
+              <ButtonLink href="/about" variant="outline" size="md">
+                More about GCS Funding <ArrowRight className="h-4 w-4" />
+              </ButtonLink>
+            </div>
+          </SplitFeature>
         </Container>
       </Section>
 

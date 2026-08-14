@@ -1,33 +1,29 @@
 import { notFound } from "next/navigation";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
+import { Magnetic } from "@/components/atmosphere";
 import { Reveal } from "@/components/motion/reveal";
 import {
-  Blobs,
-  Breadcrumbs,
   CtaSection,
   FaqSection,
-  FeatureGrid,
   HighlightRow,
+  LinkList,
+  NumberedList,
+  PageHero,
 } from "@/components/sections/shared";
 import {
   ButtonLink,
   Container,
-  Eyebrow,
   Heading,
+  Label,
   Section,
 } from "@/components/ui/primitives";
-import {
-  JsonLd,
-  breadcrumbSchema,
-  faqSchema,
-  serviceSchema,
-} from "@/lib/schema";
+import { photoForService } from "@/lib/photos";
+import { JsonLd, breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 import { serviceBySlug, services } from "@/lib/services";
 import { SITE_URL } from "@/lib/site";
 
-// Fully static: every service page is generated at build time.
 export function generateStaticParams() {
   return services.map((service) => ({ slug: service.slug }));
 }
@@ -79,114 +75,89 @@ export default async function ServicePage({
         ]}
       />
 
-      <section className="relative overflow-hidden pb-14 pt-12">
-        <Blobs />
-        <Container className="relative">
-          <Breadcrumbs trail={trail} />
+      <PageHero
+        priority
+        trail={trail}
+        label={service.eyebrow}
+        title={service.h1}
+        photo={photoForService(service.slug)}
+        actions={
+          <Magnetic>
+            <ButtonLink href="/contact" variant="accent" size="lg">
+              Get started <ArrowRight className="h-4 w-4" />
+            </ButtonLink>
+          </Magnetic>
+        }
+      />
 
-          <div className="max-w-3xl">
+      <Section tone="dark" className="py-0 sm:py-0" id="figures" rail="Figures">
+        <Container>
+          <HighlightRow highlights={service.highlights} />
+        </Container>
+      </Section>
+
+      <Section tone="light" id="overview" rail="Overview">
+        <Container>
+          <div className="grid gap-14 lg:grid-cols-[1fr_1.1fr] lg:gap-24">
             <Reveal>
-              <Eyebrow>{service.eyebrow}</Eyebrow>
-              <h1 className="mt-6 text-[2.3rem] font-extrabold leading-[1.08] tracking-[-0.03em] text-ink-900 sm:text-5xl md:text-[3.4rem]">
-                {service.h1}
-              </h1>
-              <p className="mt-7 text-lg leading-relaxed text-ink-500 sm:text-xl">
+              <Label>Overview</Label>
+              <p className="mt-8 font-display text-[clamp(1.5rem,2.4vw,2.1rem)] font-bold leading-[1.15] tracking-[-0.035em] text-ink">
                 {service.intro}
               </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <ButtonLink href="/contact" variant="brand" size="lg">
-                  Get started <ArrowRight className="h-4 w-4" />
-                </ButtonLink>
-                <ButtonLink href="/partners" variant="outline" size="lg">
-                  See the partner program
-                </ButtonLink>
-              </div>
             </Reveal>
-          </div>
 
-          <Reveal delay={0.12} className="mt-14">
-            <HighlightRow highlights={service.highlights} />
-          </Reveal>
-        </Container>
-      </section>
-
-      <Section className="bg-white">
-        <Container>
-          <Heading
-            eyebrow="What you get"
-            title="The details that actually"
-            accent="decide the deal"
-            align="left"
-          />
-          <div className="mt-12">
-            <FeatureGrid features={service.features} />
+            {service.qualifications ? (
+              <Reveal delay={0.1}>
+                <Label>What you need to apply</Label>
+                <ul className="mt-8 border-t hairline">
+                  {service.qualifications.map((item) => (
+                    <li
+                      key={item}
+                      className="border-b hairline py-5 text-lg font-medium text-ink"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-7 leading-relaxed text-ink-soft">
+                  These are the baselines. Falling short on one is still worth a
+                  conversation, because our lender network covers every credit tier
+                  and structures around exceptions regularly.
+                </p>
+              </Reveal>
+            ) : null}
           </div>
         </Container>
       </Section>
 
-      {service.qualifications ? (
-        <Section>
-          <Container>
-            <div className="grid gap-12 lg:grid-cols-2">
-              <Reveal direction="left">
-                <Eyebrow>Qualifying</Eyebrow>
-                <h2 className="mt-5 text-3xl font-bold leading-[1.14] text-ink-900 sm:text-4xl">
-                  What you need to apply
-                </h2>
-                <p className="mt-5 leading-relaxed text-ink-500">
-                  These are the baselines. If you fall short on one of them it is
-                  still worth a conversation, because our lender network covers
-                  every credit tier and structures around exceptions regularly.
-                </p>
-              </Reveal>
-
-              <Reveal direction="right">
-                <ul className="space-y-3">
-                  {service.qualifications.map((item) => (
-                    <li
-                      key={item}
-                      className="flex items-start gap-3 rounded-2xl border border-ink-100 bg-white p-5"
-                    >
-                      <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-brand-100 text-brand-700">
-                        <Check className="h-3 w-3" />
-                      </span>
-                      <span className="font-medium text-ink-800">{item}</span>
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            </div>
-          </Container>
-        </Section>
-      ) : null}
+      <Section tone="paper" id="details" rail="Details">
+        <Container>
+          <Heading label="What you get" title="The details that decide the deal" />
+          <div className="mt-16">
+            <NumberedList items={service.features} />
+          </div>
+        </Container>
+      </Section>
 
       <FaqSection faqs={service.faqs} />
 
       {/* Internal linking: passes authority between money pages and keeps
           visitors moving toward the offer that actually fits them. */}
-      <Section className="bg-white">
+      <Section tone="light" id="more" rail="More">
         <Container>
-          <Heading title="Other ways we can help" align="left" />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
-            {others.map((item, index) => (
-              <Reveal key={item.slug} delay={index * 0.05}>
-                <ButtonLink
-                  href={`/services/${item.slug}`}
-                  variant="outline"
-                  className="h-auto w-full justify-between rounded-2xl px-6 py-5 text-left"
-                >
-                  <span>
-                    <span className="block font-bold text-ink-900">
-                      {item.nav}
-                    </span>
-                    <span className="mt-1 block text-sm font-normal text-ink-400">
-                      {item.eyebrow}
-                    </span>
-                  </span>
-                  <ArrowRight className="h-4 w-4 shrink-0 text-ink-300" />
-                </ButtonLink>
-              </Reveal>
-            ))}
+          <div className="grid gap-14 lg:grid-cols-[30rem_1fr] lg:gap-24">
+            <Heading
+              label="Also from GCS"
+              title="Other ways we can help"
+              className="lg:sticky lg:top-32 lg:self-start"
+            />
+            <LinkList
+              items={others.map((item) => ({
+                href: `/services/${item.slug}`,
+                title: item.nav,
+                meta: item.eyebrow,
+              }))}
+            />
           </div>
         </Container>
       </Section>

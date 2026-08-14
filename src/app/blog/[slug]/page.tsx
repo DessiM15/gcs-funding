@@ -1,9 +1,8 @@
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
-import { Reveal } from "@/components/motion/reveal";
-import { Blobs, Breadcrumbs, CtaSection } from "@/components/sections/shared";
-import { Container, Eyebrow } from "@/components/ui/primitives";
+import { CtaSection, LinkList, PageHero } from "@/components/sections/shared";
+import { Container, Heading, Section } from "@/components/ui/primitives";
+import { photos } from "@/lib/photos";
 import { getAllPosts, getPost } from "@/lib/posts";
 import { JsonLd, ORG_ID, PERSON_ID, breadcrumbSchema } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
@@ -29,6 +28,14 @@ export async function generateMetadata({
   });
 }
 
+// Each post opens on the image that matches its subject.
+const POST_PHOTOS: Record<string, (typeof photos)[keyof typeof photos]> = {
+  "is-credit-card-surcharging-legal-in-texas": photos.cardReader,
+  "business-line-of-credit-requirements-texas": photos.houstonTower,
+  "customer-financing-increase-average-ticket": photos.kitchen,
+  "commercial-truck-financing-bad-credit": photos.truckNight,
+};
+
 export default async function PostPage({
   params,
 }: {
@@ -38,9 +45,7 @@ export default async function PostPage({
   const post = getPost(slug);
   if (!post) notFound();
 
-  const others = getAllPosts()
-    .filter((item) => item.slug !== post.slug)
-    .slice(0, 3);
+  const others = getAllPosts().filter((item) => item.slug !== post.slug);
 
   const trail = [
     { name: "Home", path: "/" },
@@ -67,63 +72,60 @@ export default async function PostPage({
       />
 
       <article>
-        <section className="relative overflow-hidden pb-10 pt-12">
-          <Blobs />
-          <Container className="relative">
-            <Breadcrumbs trail={trail} />
-            <div className="max-w-3xl">
-              <Reveal>
-                <Eyebrow>{post.category}</Eyebrow>
-                <h1 className="mt-6 text-[2.1rem] font-extrabold leading-[1.1] tracking-[-0.03em] text-ink-900 sm:text-[3rem]">
-                  {post.title}
-                </h1>
-                <p className="mt-6 text-lg leading-relaxed text-ink-500">
-                  {post.description}
-                </p>
-                <p className="mt-6 text-sm text-ink-400">
-                  <time dateTime={post.date}>
-                    {new Date(post.date).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </time>
-                  {" · "}
-                  {post.readingTime} min read
-                </p>
-              </Reveal>
-            </div>
+        <PageHero
+          priority
+          trail={trail}
+          label={post.category}
+          title={post.title}
+          intro={post.description}
+          photo={POST_PHOTOS[post.slug] ?? photos.houstonNight}
+        />
+
+        <Section tone="paper">
+          <Container>
+            <p className="label mb-12 text-ink-soft">
+              <time dateTime={post.date}>
+                {new Date(post.date).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </time>
+              {" · "}
+              {post.readingTime} min read
+            </p>
+
+            {/*
+              Typography is scoped to .post-body so markdown renders consistently
+              without leaking styles into the rest of the site.
+            */}
+            <div
+              className="post-body max-w-3xl"
+              dangerouslySetInnerHTML={{ __html: post.html }}
+            />
           </Container>
-        </section>
+        </Section>
 
-        <Container className="pb-20">
-          {/*
-            Typography is scoped here rather than globally so markdown content
-            renders consistently without leaking styles into the rest of the site.
-          */}
-          <div
-            className="post-body max-w-3xl"
-            dangerouslySetInnerHTML={{ __html: post.html }}
-          />
-
-          {others.length ? (
-            <div className="mt-16 max-w-3xl border-t border-ink-100 pt-10">
-              <h2 className="text-lg font-bold text-ink-900">Keep reading</h2>
-              <ul className="mt-5 space-y-3">
-                {others.map((item) => (
-                  <li key={item.slug}>
-                    <Link
-                      href={`/blog/${item.slug}`}
-                      className="font-medium text-brand-700 hover:underline"
-                    >
-                      {item.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ) : null}
-        </Container>
+        {others.length ? (
+          <Section tone="light">
+            <Container>
+              <div className="grid gap-14 lg:grid-cols-[30rem_1fr] lg:gap-24">
+                <Heading
+                  label="Keep reading"
+                  title="More from GCS Funding"
+                  className="lg:sticky lg:top-32 lg:self-start"
+                />
+                <LinkList
+                  items={others.map((item) => ({
+                    href: `/blog/${item.slug}`,
+                    title: item.title,
+                    meta: item.category,
+                  }))}
+                />
+              </div>
+            </Container>
+          </Section>
+        ) : null}
       </article>
 
       <CtaSection />

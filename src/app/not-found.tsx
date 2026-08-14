@@ -1,30 +1,32 @@
-import { Blobs } from "@/components/sections/shared";
-import { ButtonLink, Container } from "@/components/ui/primitives";
+import { ButtonLink, Container, Label, Section } from "@/components/ui/primitives";
 
 export default function NotFound() {
   return (
-    <section className="relative overflow-hidden py-28">
-      <Blobs />
-      <Container className="relative">
-        <div className="mx-auto max-w-xl text-center">
-          <p className="font-display text-6xl font-extrabold text-gradient">404</p>
-          <h1 className="mt-6 text-3xl font-extrabold tracking-[-0.02em] text-ink-900 sm:text-4xl">
-            We could not find that page
+    <Section tone="dark" className="grain flex min-h-[80svh] items-center pt-40">
+      <Container>
+        <div className="max-w-3xl">
+          <Label tone="light">Error 404</Label>
+          <h1 className="display mt-8 text-white">
+            We could not
+            {" "}
+            <br className="hidden sm:inline" />
+            find that page
           </h1>
-          <p className="mt-5 text-lg leading-relaxed text-ink-500">
-            The link may be out of date. Everything on the old site has a new home
+          <span className="mt-10 block h-0.5 w-28 bg-accent" aria-hidden="true" />
+          <p className="mt-10 max-w-xl text-lg leading-relaxed text-mist">
+            The link may be out of date. Everything from the old site has a new home
             here, so try one of these instead.
           </p>
-          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonLink href="/" variant="primary" size="lg">
+          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
+            <ButtonLink href="/" variant="accent" size="lg">
               Back to home
             </ButtonLink>
-            <ButtonLink href="/partners" variant="outline" size="lg">
+            <ButtonLink href="/partners" variant="outlineLight" size="lg">
               Partner program
             </ButtonLink>
           </div>
         </div>
       </Container>
-    </section>
+    </Section>
   );
 }

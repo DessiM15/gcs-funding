@@ -29,8 +29,8 @@ function Slider({
   return (
     <div>
       <div className="flex items-baseline justify-between gap-4">
-        <label className="text-sm font-semibold text-ink-800">{label}</label>
-        <span className="font-display text-lg font-bold text-ink-900">
+        <label className="label text-ink-soft">{label}</label>
+        <span className="font-display text-xl font-bold tracking-[-0.03em] text-ink">
           {format(value)}
         </span>
       </div>
@@ -42,9 +42,9 @@ function Slider({
         value={value}
         onChange={(event) => onChange(Number(event.target.value))}
         aria-label={label}
-        className="mt-3 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-ink-100 accent-[var(--color-brand-500)]"
+        className="mt-3 h-1.5 w-full cursor-pointer appearance-none bg-hairline accent-[var(--color-accent)]"
       />
-      {hint ? <p className="mt-2 text-xs text-ink-400">{hint}</p> : null}
+      {hint ? <p className="mt-2 text-xs text-ink-soft">{hint}</p> : null}
     </div>
   );
 }
@@ -59,14 +59,14 @@ function ResultCard({
   caption: string;
 }) {
   return (
-    <div className="rounded-3xl border border-ink-100 bg-gradient-to-br from-brand-50 to-azure-50 p-8 text-center">
-      <p className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-brand-700">
+    <div className="border border-hairline bg-gradient-to-br from-brand-50 to-azure-50 p-8 text-center">
+      <p className="text-[0.7rem] font-bold uppercase tracking-[0.14em] text-accent-ink">
         {headline}
       </p>
-      <p className="mt-3 font-display text-4xl font-extrabold tracking-tight text-ink-900 sm:text-5xl">
+      <p className="mt-3 font-display text-4xl font-extrabold tracking-tight text-ink sm:text-5xl">
         {value}
       </p>
-      <p className="mt-3 text-sm leading-relaxed text-ink-500">{caption}</p>
+      <p className="mt-3 text-sm leading-relaxed text-ink-soft">{caption}</p>
     </div>
   );
 }
@@ -94,7 +94,7 @@ export function SurchargeCalculator() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr]">
-      <div className="space-y-8 rounded-3xl border border-ink-100 bg-white p-8">
+      <div className="space-y-8 border border-hairline bg-white p-8">
         <Slider
           label="Monthly card volume"
           value={volume}
@@ -134,8 +134,8 @@ export function SurchargeCalculator() {
           caption={`About ${formatCurrency(monthly)} a month in processing cost moved off your P&L and onto the cardholder who chose to pay by credit.`}
         />
 
-        <div className="rounded-3xl border border-ink-100 bg-white p-7">
-          <p className="text-sm leading-relaxed text-ink-500">
+        <div className="border border-hairline bg-white p-7">
+          <p className="text-sm leading-relaxed text-ink-soft">
             This is an estimate, not a quote. Actual recovery depends on your card
             mix, ticket sizes, interchange, and the surcharge rules that apply in
             your state. Under our program the cardholder pays a 3.5% program fee
@@ -144,7 +144,7 @@ export function SurchargeCalculator() {
           <Link
             href="/contact"
             className={buttonClass({
-              variant: "brand",
+              variant: "accent",
               size: "md",
               className: "mt-6 w-full",
             })}
@@ -182,7 +182,7 @@ export function FinancingImpactCalculator() {
 
   return (
     <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr]">
-      <div className="space-y-8 rounded-3xl border border-ink-100 bg-white p-8">
+      <div className="space-y-8 border border-hairline bg-white p-8">
         <Slider
           label="Quotes or estimates per month"
           value={quotes}
@@ -239,8 +239,8 @@ export function FinancingImpactCalculator() {
           caption={`${formatCurrency(current)} a month today, ${formatCurrency(projected)} with financing offered at the point of sale.`}
         />
 
-        <div className="rounded-3xl border border-ink-100 bg-white p-7">
-          <p className="text-sm leading-relaxed text-ink-500">
+        <div className="border border-hairline bg-white p-7">
+          <p className="text-sm leading-relaxed text-ink-soft">
             The uplift figures are yours to set, and the defaults are intentionally
             conservative. The mechanics behind them are not theoretical: approvals
             run down to a 500 FICO, offers come back in about ten seconds on a soft
@@ -249,7 +249,7 @@ export function FinancingImpactCalculator() {
           <Link
             href="/contact"
             className={buttonClass({
-              variant: "brand",
+              variant: "accent",
               size: "md",
               className: "mt-6 w-full",
             })}

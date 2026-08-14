@@ -1,8 +1,5 @@
-import { CheckCircle2 } from "lucide-react";
-
 import { Reveal } from "@/components/motion/reveal";
-import { Blobs } from "@/components/sections/shared";
-import { ButtonLink, Container } from "@/components/ui/primitives";
+import { ButtonLink, Container, Label, Section } from "@/components/ui/primitives";
 import { buildMetadata } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -16,52 +13,46 @@ export const metadata = buildMetadata({
 
 export default function ThankYouPage() {
   return (
-    <section className="relative overflow-hidden py-28">
-      <Blobs />
-      <Container className="relative">
-        <Reveal className="mx-auto max-w-xl text-center">
-          <span className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-azure-500 text-white">
-            <CheckCircle2 className="h-7 w-7" />
-          </span>
-
-          <h1 className="mt-8 text-[2.2rem] font-extrabold leading-[1.1] tracking-[-0.03em] text-ink-900 sm:text-5xl">
-            Got it. We&apos;re on it.
+    <Section tone="dark" className="grain flex min-h-[80svh] items-center pt-40">
+      <Container>
+        <Reveal className="max-w-3xl">
+          <Label tone="light">Received</Label>
+          <h1 className="display mt-8 text-white">
+            Got it.
+            {" "}
+            <br className="hidden sm:inline" />
+            <span className="text-accent">We&apos;re on it.</span>
           </h1>
+          <span className="mt-10 block h-0.5 w-28 bg-accent" aria-hidden="true" />
 
-          <p className="mt-6 text-lg leading-relaxed text-ink-500">
-            Your request came through and a confirmation is on its way to your
-            inbox. We will come back to you within one business day with the
-            programs that fit your business.
+          <p className="mt-10 max-w-xl text-lg leading-relaxed text-mist">
+            Your request came through and a confirmation is on its way to your inbox.
+            We will come back to you within one business day with the programs that
+            fit your business.
           </p>
 
-          <p className="mt-4 text-[0.95rem] text-ink-400">
+          <p className="mt-6 text-mist">
             If it is urgent, reach us at{" "}
-            <a
-              href={`mailto:${site.email}`}
-              className="font-semibold text-brand-700 hover:underline"
-            >
+            <a href={`mailto:${site.email}`} className="text-accent hover:underline">
               {site.email}
             </a>{" "}
             or{" "}
-            <a
-              href={`tel:${site.phoneRaw}`}
-              className="font-semibold text-brand-700 hover:underline"
-            >
+            <a href={`tel:${site.phoneRaw}`} className="text-accent hover:underline">
               {site.phone}
             </a>
             .
           </p>
 
-          <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-            <ButtonLink href="/" variant="primary" size="lg">
+          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
+            <ButtonLink href="/" variant="accent" size="lg">
               Back to home
             </ButtonLink>
-            <ButtonLink href="/blog" variant="outline" size="lg">
+            <ButtonLink href="/blog" variant="outlineLight" size="lg">
               Read our guides
             </ButtonLink>
           </div>
         </Reveal>
       </Container>
-    </section>
+    </Section>
   );
 }

@@ -47,7 +47,7 @@ export function NavProgress() {
     >
       <div
         data-active={active || undefined}
-        className="h-full w-full origin-left scale-x-0 bg-gradient-to-r from-brand-500 to-azure-500 opacity-0 transition-[transform,opacity] duration-500 ease-out data-active:scale-x-100 data-active:opacity-100"
+        className="h-full w-full origin-left scale-x-0 bg-accent opacity-0 transition-[transform,opacity] duration-500 ease-out data-active:scale-x-100 data-active:opacity-100"
       />
     </div>
   );

@@ -175,10 +175,10 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
         >
           {step === 0 ? (
             <fieldset>
-              <legend className="text-xl font-bold text-ink-900 sm:text-2xl">
+              <legend className="text-xl font-bold text-ink sm:text-2xl">
                 First, what brings you here?
               </legend>
-              <p className="mt-2 text-[0.95rem] text-ink-500">
+              <p className="mt-2 text-[0.95rem] text-ink-soft">
                 This tells us which questions are worth your time.
               </p>
 
@@ -188,17 +188,17 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
                     key={option.id}
                     type="button"
                     onClick={() => choosePath(option.id)}
-                    className="group flex items-center justify-between gap-4 rounded-2xl border border-ink-200 bg-white p-5 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-brand-400 hover:shadow-[0_14px_32px_-18px_rgb(11_18_32/0.3)]"
+                    className="group flex items-center justify-between gap-4 border border-hairline bg-white p-5 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-accent hover:"
                   >
                     <span>
-                      <span className="block font-semibold text-ink-900">
+                      <span className="block font-semibold text-ink">
                         {option.label}
                       </span>
-                      <span className="mt-1 block text-sm text-ink-400">
+                      <span className="mt-1 block text-sm text-ink-soft">
                         {option.blurb}
                       </span>
                     </span>
-                    <ArrowRight className="h-5 w-5 shrink-0 text-ink-300 transition-all group-hover:translate-x-1 group-hover:text-brand-600" />
+                    <ArrowRight className="h-5 w-5 shrink-0 text-ink-soft transition-all group-hover:translate-x-1 group-hover:text-accent-ink" />
                   </button>
                 ))}
               </div>
@@ -207,14 +207,14 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
 
           {step === 1 ? (
             <fieldset>
-              <legend className="text-xl font-bold text-ink-900 sm:text-2xl">
+              <legend className="text-xl font-bold text-ink sm:text-2xl">
                 Tell us about the business
               </legend>
 
               <div className="mt-6 space-y-6">
                 {fields.map((field) => (
                   <div key={field.name}>
-                    <p className="text-sm font-semibold text-ink-800">
+                    <p className="text-sm font-semibold text-ink">
                       {field.label}
                     </p>
                     <div className="mt-3 flex flex-wrap gap-2">
@@ -227,10 +227,10 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
                             aria-pressed={active}
                             onClick={() => set(field.name, option)}
                             className={cn(
-                              "rounded-full border px-4 py-2 text-sm font-medium transition-all duration-200",
+                              "border px-4 py-2.5 text-sm font-medium transition-all duration-200",
                               active
-                                ? "border-brand-500 bg-brand-500 text-white shadow-[0_6px_18px_-8px_rgb(88_148_31/0.8)]"
-                                : "border-ink-200 bg-white text-ink-600 hover:border-ink-400 hover:text-ink-900",
+                                ? "border-accent bg-accent text-void"
+                                : "border-hairline bg-white text-ink-soft hover:border-ink-400 hover:text-ink",
                             )}
                           >
                             {option}
@@ -246,7 +246,7 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
               <div className="mt-8 flex items-center gap-3">
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="bare"
                   onClick={() => setStep(0)}
                   className="px-4"
                 >
@@ -254,7 +254,7 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
                 </Button>
                 <Button
                   type="button"
-                  variant="brand"
+                  variant="accent"
                   onClick={() => setStep(2)}
                   disabled={!qualifiersComplete}
                   className="flex-1"
@@ -267,7 +267,7 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
 
           {step === 2 ? (
             <fieldset>
-              <legend className="text-xl font-bold text-ink-900 sm:text-2xl">
+              <legend className="text-xl font-bold text-ink sm:text-2xl">
                 Where should we send your options?
               </legend>
 
@@ -314,7 +314,7 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
               <div className="mt-4">
                 <label
                   htmlFor="message"
-                  className="text-sm font-semibold text-ink-800"
+                  className="text-sm font-semibold text-ink"
                 >
                   Anything else we should know? (optional)
                 </label>
@@ -324,7 +324,7 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
                   rows={3}
                   value={(values.message as string) ?? ""}
                   onChange={(event) => set("message", event.target.value)}
-                  className="mt-2 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[0.95rem] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-brand-400"
+                  className="mt-2 w-full border border-hairline bg-white px-4 py-3 text-[0.95rem] text-ink outline-none transition-colors placeholder:text-ink-soft focus:border-accent"
                 />
               </div>
 
@@ -340,14 +340,14 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
                 />
               </div>
 
-              <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-2xl border border-ink-100 bg-ink-50/60 p-4">
+              <label className="mt-6 flex cursor-pointer items-start gap-3 border border-hairline bg-bone p-4">
                 <input
                   type="checkbox"
                   checked={Boolean(values.consent)}
                   onChange={(event) => set("consent", event.target.checked)}
-                  className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--color-brand-600)]"
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--color-accent-deep)]"
                 />
-                <span className="text-[0.8rem] leading-relaxed text-ink-500">
+                <span className="text-[0.8rem] leading-relaxed text-ink-soft">
                   I agree that GCS Funding may contact me about my enquiry using
                   the details above. I understand this is not an application for
                   credit and that all financing is subject to approval.
@@ -358,7 +358,7 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
               {formError ? (
                 <p
                   role="alert"
-                  className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
+                  className="mt-4 bg-red-50 px-4 py-3 text-sm font-medium text-red-700"
                 >
                   {formError}
                 </p>
@@ -367,7 +367,7 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
               <div className="mt-6 flex items-center gap-3">
                 <Button
                   type="button"
-                  variant="ghost"
+                  variant="bare"
                   onClick={() => setStep(1)}
                   className="px-4"
                 >
@@ -377,7 +377,7 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
                   type="submit"
                   disabled={submitting}
                   className={buttonClass({
-                    variant: "brand",
+                    variant: "accent",
                     size: "lg",
                     className: "flex-1",
                   })}
@@ -394,7 +394,7 @@ export function LeadForm({ defaultPath }: { defaultPath?: LeadPath }) {
                 </button>
               </div>
 
-              <p className="mt-4 text-center text-xs text-ink-400">
+              <p className="mt-4 text-center text-xs text-ink-soft">
                 We reply within one business day. No obligation, and checking
                 options does not affect your credit.
               </p>
@@ -413,14 +413,14 @@ function ProgressDots({ step }: { step: number }) {
         <li key={label} className="flex flex-1 flex-col gap-2">
           <span
             className={cn(
-              "h-1 rounded-full transition-colors duration-300",
-              index <= step ? "bg-brand-500" : "bg-ink-100",
+              "h-1 transition-colors duration-300",
+              index <= step ? "bg-accent" : "bg-hairline",
             )}
           />
           <span
             className={cn(
               "text-[0.7rem] font-semibold uppercase tracking-[0.1em] transition-colors",
-              index <= step ? "text-brand-700" : "text-ink-300",
+              index <= step ? "text-accent-ink" : "text-ink-soft",
             )}
           >
             {label}
@@ -452,7 +452,7 @@ function Field({
 }) {
   return (
     <div>
-      <label htmlFor={name} className="text-sm font-semibold text-ink-800">
+      <label htmlFor={name} className="text-sm font-semibold text-ink">
         {label}
       </label>
       <input
@@ -464,7 +464,7 @@ function Field({
         value={value ?? ""}
         aria-invalid={errors?.length ? true : undefined}
         onChange={(event) => onChange(name, event.target.value)}
-        className="mt-2 w-full rounded-xl border border-ink-200 bg-white px-4 py-3 text-[0.95rem] text-ink-900 outline-none transition-colors placeholder:text-ink-300 focus:border-brand-400 aria-invalid:border-red-400"
+        className="mt-2 w-full border border-hairline bg-white px-4 py-3 text-[0.95rem] text-ink outline-none transition-colors placeholder:text-ink-soft focus:border-accent aria-invalid:border-red-400"
       />
       <FieldError messages={errors} />
     </div>
